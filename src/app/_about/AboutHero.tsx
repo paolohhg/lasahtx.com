@@ -29,7 +29,7 @@ export function AboutHero() {
             <p className="text-primary-foreground/80 text-lg md:text-xl font-sans leading-relaxed mb-3 max-w-xl">
               Chef-led Filipino-rooted modern Asian catering for 25–500+ guests.
             </p>
-            <p className="text-primary-foreground/40 text-sm md:text-base font-sans tracking-widest uppercase mb-10">
+            <p className="text-primary-foreground/60 text-sm md:text-base font-sans tracking-widest uppercase mb-10">
               Structured. Consistent. Executed with intention.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">

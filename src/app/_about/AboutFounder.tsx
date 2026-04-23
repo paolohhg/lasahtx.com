@@ -102,7 +102,7 @@ export function AboutFounder() {
             <h3 className="font-display text-3xl md:text-4xl text-primary-foreground tracking-widest mb-2">
               PAOLO NUCUM
             </h3>
-            <p className="text-primary-foreground/40 text-sm font-sans">
+            <p className="text-primary-foreground/60 text-sm font-sans">
               30+ years in high-volume hospitality and guest experience
               leadership.
             </p>
