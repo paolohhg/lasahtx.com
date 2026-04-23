@@ -57,7 +57,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-primary-foreground/10 mt-12 pt-10 mb-8">
-          <p className="text-xs font-display tracking-widest text-primary-foreground/40 mb-3">
+          <p className="text-xs font-display tracking-widest text-primary-foreground/60 mb-3">
             WHAT IS LASA?
           </p>
           <p className="text-xs text-primary-foreground/60 leading-relaxed max-w-md">
@@ -65,12 +65,12 @@ export function Footer() {
             &quot;flavor.&quot; It represents bold, honest food rooted in
             culture and built with intention.
           </p>
-          <p className="text-xs text-primary-foreground/40 leading-relaxed mt-3">
+          <p className="text-xs text-primary-foreground/60 leading-relaxed mt-3">
             Modern Asian Hospitality. Built for Houston. Inspired by Asia.
           </p>
         </div>
         <div className="border-t border-primary-foreground/10 pt-8 text-center">
-          <p className="text-xs text-primary-foreground/40">
+          <p className="text-xs text-primary-foreground/60">
             © {new Date().getFullYear()} LASA HTX. All rights reserved.
           </p>
         </div>
