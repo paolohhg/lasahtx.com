@@ -25,7 +25,7 @@ export function FAQList() {
             <h2 className="font-display text-3xl md:text-4xl mb-4 border-b border-border pb-3">
               {section.title}
             </h2>
-            <Accordion multiple className="w-full">
+            <Accordion multiple keepMounted className="w-full">
               {section.questions.map((item, qi) => (
                 <AccordionItem key={qi} value={`${si}-${qi}`}>
                   <AccordionTrigger className="text-left text-sm md:text-base font-sans font-medium">
