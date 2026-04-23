@@ -57,6 +57,14 @@ These differ from Next 14 patterns. Check before writing:
 - **Async params** — dynamic routes' `params` and `searchParams` are `Promise<...>` and must be awaited. Session 1 has no dynamic routes so this doesn't bite yet.
 - **Server-by-default** — `page.tsx` and `layout.tsx` are server components unless you explicitly add `"use client"`. Keep pages server (so `metadata`, JSON-LD, and static content SSR cleanly) and extract motion-using sections into small `"use client"` sub-components. See `src/app/_home/` for the pattern.
 
+## Known patterns (Base UI / shadcn base-nova)
+
+shadcn's `base-nova` preset wraps `@base-ui/react` primitives — **not Radix**. The component files shadcn generates look familiar, but the underlying primitive props differ from Radix docs and examples. Verify against `node_modules/@base-ui/react/<component>/**/*.d.ts` before copying Radix-era patterns. **Extend this list as new divergences surface:**
+
+- **Accordion API: `type="multiple"` → `multiple` (boolean).** Radix used `type: "single" | "multiple"` string. Base UI uses `multiple?: boolean` (default `false`). `value` / `defaultValue` arrays still drive controlled state. Surfaced in session 3 (/corporate-catering-faq).
+- **Button has no `asChild`.** Radix Button accepted Slot-based composition via `asChild`; Base UI Button doesn't. Pattern across this repo: styled `next/link` with button-like classes, not `<Button asChild><Link /></Button>`. Surfaced in session 1 (home page CTAs).
+- **Conditional-content components unmount hidden content by default.** Base UI's `keepMounted` default is `false` on Accordion, and the same philosophy applies across Tabs, Dialog, Collapsible, and other primitives that show/hide content based on state. For any component where closed or hidden content is **SEO-relevant** (FAQ answers, tab panels with real copy, collapsed long-form content), pass `keepMounted` on the root so it server-renders into the initial HTML. CSS animations still hide the content visually when closed — no UX difference, just crawlability. Surfaced in session 3 when `data-slot="accordion-content"` count was 0 despite 17 triggers on the FAQ page — meaning Google saw the questions but not the answers in organic body text.
+
 ## Content modules
 
 V1 has no CMS. Pop-ups and meal-prep bowls live in typed TS modules under `src/content/`:
