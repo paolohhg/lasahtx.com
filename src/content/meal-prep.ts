@@ -2,7 +2,8 @@
  * Meal-prep bowls — chef-driven weekly rotating menu.
  *
  * The /meal-prep page UI, the Product JSON-LD, and the cart store's price
- * helpers all read from `mealPrepBowls` below. One source of truth.
+ * helpers all read from `mealPrepBowls` below. One source of truth for
+ * display; Stripe is source of truth for authoritative pricing at checkout.
  *
  * Array order = display order — carries the `BOWL_ORDER` curation intent
  * from the legacy Lovable site (Sinigang → Adobo → Filipino BBQ → Pancit →
@@ -19,6 +20,11 @@
  * OutOfStock. If every variant on a bowl is unavailable, the card renders
  * "Sold Out This Week". Manual edits here + Vercel redeploy; real-time sync
  * lands with Level 3.
+ *
+ * Stripe: every variant and add-on has a `stripePriceId` referencing a
+ * Stripe Price created in the dashboard. Empty string triggers a server
+ * action validation error at checkout. Test-mode IDs during development;
+ * swap to live IDs at cutover.
  */
 
 /* ── Add-ons ──────────────────────────────────────────────────────────── */
@@ -27,13 +33,30 @@ export interface AddOn {
   id: "extra-protein" | "extra-rice" | "chili-garlic-sauce";
   label: string;
   priceUSD: number;
+  /** Stripe Price ID. Empty = not yet configured; server action throws. */
+  stripePriceId: string;
 }
 
 /** Universal — every bowl accepts every add-on. */
 export const addOns: AddOn[] = [
-  { id: "extra-protein", label: "Extra Protein", priceUSD: 4.0 },
-  { id: "extra-rice", label: "Extra Rice", priceUSD: 2.0 },
-  { id: "chili-garlic-sauce", label: "Chili Garlic Sauce", priceUSD: 1.0 },
+  {
+    id: "extra-protein",
+    label: "Extra Protein",
+    priceUSD: 4.0,
+    stripePriceId: "",
+  },
+  {
+    id: "extra-rice",
+    label: "Extra Rice",
+    priceUSD: 2.0,
+    stripePriceId: "",
+  },
+  {
+    id: "chili-garlic-sauce",
+    label: "Chili Garlic Sauce",
+    priceUSD: 1.0,
+    stripePriceId: "",
+  },
 ];
 
 /* ── Bowls ────────────────────────────────────────────────────────────── */
@@ -44,6 +67,8 @@ export interface BowlVariant {
   id: string;
   label: string;
   priceUSD: number;
+  /** Stripe Price ID. Empty = not yet configured; server action throws. */
+  stripePriceId: string;
   /** Level 2 inventory flag. Undefined = available (default). `false`
    * filters the variant from the picker and flips its JSON-LD Offer to
    * OutOfStock. */
@@ -52,7 +77,12 @@ export interface BowlVariant {
 
 /** Boolean toggle unique to a specific bowl. Currently only Pancit's
  * "no pork" option. Distinct from add-ons (universal across bowls) and
- * variants (price-changing). */
+ * variants (price-changing).
+ *
+ * Modifiers are NOT Stripe line items — they're $0 kitchen instructions
+ * passed through Session metadata so Paolo sees them in the dashboard + the
+ * confirmation email. If a future modifier ever costs money, promote it to
+ * a variant instead. */
 export interface BowlModifier {
   id: string;
   label: string;
@@ -83,9 +113,9 @@ export const mealPrepBowls: MealPrepBowl[] = [
     description:
       "Sour-savory tamarind broth with seasonal vegetables and jasmine rice. Chicken at base; pork or beef available.",
     variants: [
-      { id: "chicken", label: "Chicken", priceUSD: 15 },
-      { id: "pork", label: "Pork", priceUSD: 15 },
-      { id: "beef", label: "Beef", priceUSD: 17 },
+      { id: "chicken", label: "Chicken", priceUSD: 15, stripePriceId: "" },
+      { id: "pork", label: "Pork", priceUSD: 15, stripePriceId: "" },
+      { id: "beef", label: "Beef", priceUSD: 17, stripePriceId: "" },
     ],
     // defaultVariantIndex: 0 (implicit) — Chicken at base
   },
@@ -95,8 +125,8 @@ export const mealPrepBowls: MealPrepBowl[] = [
     description:
       "Slow-braised in soy, cane vinegar, garlic, and peppercorns — the Filipino national dish, tender and layered. Chicken or pork at base.",
     variants: [
-      { id: "chicken", label: "Chicken", priceUSD: 15 },
-      { id: "pork", label: "Pork", priceUSD: 15 },
+      { id: "chicken", label: "Chicken", priceUSD: 15, stripePriceId: "" },
+      { id: "pork", label: "Pork", priceUSD: 15, stripePriceId: "" },
     ],
   },
   {
@@ -105,8 +135,8 @@ export const mealPrepBowls: MealPrepBowl[] = [
     description:
       "Skewers marinated in banana ketchup, soy, and citrus, grilled over flame. Pork at base; chicken available. Served with garlic rice and pickled vegetables.",
     variants: [
-      { id: "chicken", label: "Chicken", priceUSD: 15 },
-      { id: "pork", label: "Pork", priceUSD: 15 },
+      { id: "chicken", label: "Chicken", priceUSD: 15, stripePriceId: "" },
+      { id: "pork", label: "Pork", priceUSD: 15, stripePriceId: "" },
     ],
     defaultVariantIndex: 1, // Pork at base per copy ("Pork at base; chicken available")
   },
@@ -115,7 +145,9 @@ export const mealPrepBowls: MealPrepBowl[] = [
     title: "Pancit Bowl",
     description:
       'Stir-fried rice noodles with chicken and pork, tossed with julienned vegetables in a soy-aromatic sauce. "No pork" option available at no charge.',
-    variants: [{ id: "standard", label: "Pancit", priceUSD: 15 }],
+    variants: [
+      { id: "standard", label: "Pancit", priceUSD: 15, stripePriceId: "" },
+    ],
     modifiers: [{ id: "no-pork", label: "No pork", priceUSD: 0 }],
   },
   {
@@ -123,13 +155,17 @@ export const mealPrepBowls: MealPrepBowl[] = [
     title: "Beef Caldereta Bowl",
     description:
       "Braised beef stew with tomato, potato, and bell peppers — slow-cooked Spanish-Filipino comfort food.",
-    variants: [{ id: "beef", label: "Beef", priceUSD: 17 }],
+    variants: [
+      { id: "beef", label: "Beef", priceUSD: 17, stripePriceId: "" },
+    ],
   },
   {
     id: "lechon-kawali-bowl",
     title: "Lechon Kawali Bowl",
     description:
       "Twice-cooked pork belly — braised, then deep-fried for the crackling crust Lechon Kawali is known for. Served with dipping sauce.",
-    variants: [{ id: "pork", label: "Pork", priceUSD: 17 }],
+    variants: [
+      { id: "pork", label: "Pork", priceUSD: 17, stripePriceId: "" },
+    ],
   },
 ];
