@@ -43,7 +43,10 @@ Approximate profile as of scaffolding:
 - **sonner** for toast notifications (shadcn wrapper at `@/components/ui/sonner`).
 - **Vercel** for hosting + deploys.
 - **Resend** for transactional email (session 3+; not wired yet).
-- **Stripe Payment Links** for all paid transactions (no cart, no Stripe API — just hosted-checkout links rendered as buttons).
+- **Stripe**, split by surface:
+  - `/meal-prep`: Stripe **Checkout Sessions** via server action. Cart (Zustand + localStorage, ~24h TTL) supports variants + add-ons + 4-bowl minimum. Server recomputes authoritative totals from the content module before creating the session — never trust client-submitted prices.
+  - `/pop-ups`: Stripe **Payment Links** (single-item drops, no cart).
+  - `/catering`: no payment — inquiry forms via Resend; quotes sent manually.
 - **Email marketing tool** (Beehiiv / ConvertKit / Mailchimp — TBD) for the pop-ups waitlist. Pick before launch.
 
 No database. No Shopify. No Supabase. No Lovable-era dependencies. Form submissions email Paolo via Resend.
@@ -77,7 +80,7 @@ V1 has no CMS. Pop-ups and meal-prep bowls live in typed TS modules under `src/c
 Rules:
 - **Never hardcode dates, prices, or product titles in JSX** — they belong in a content module.
 - **`status` on `PopUp` is explicit.** NEVER derive it from `Date.now()` — that's the mistake that stuck the Lovable `/pop-ups` in "Sold Out" for two months.
-- **Placeholders are expected.** `priceUSD: 0` = not priced yet (UI renders "coming soon"). `stripePaymentLinkUrl: ""` = Stripe product not created yet (Order button disabled).
+- **Placeholders are expected.** On `/meal-prep`, an empty `variants` array on a bowl renders a "Coming Soon" card (no Add to Cart). On `/pop-ups`, `stripePaymentLinkUrl: ""` disables the Order button for that drop.
 - **JSON-LD reads the same module.** The `Event` schema on `/pop-ups` and the `Menu`/`Product` schema on `/meal-prep` both map from the same typed entries that drive the UI — one source of truth per content type.
 
 ## SEO non-negotiables
