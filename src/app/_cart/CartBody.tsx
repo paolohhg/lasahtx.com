@@ -46,7 +46,6 @@ export function CartBody({ context, onClose }: CartBodyProps) {
       </div>
       <CartFooter
         showPageLink={context === "drawer"}
-        onCheckoutClick={onClose}
         onClearConfirmed={onClose}
       />
     </>

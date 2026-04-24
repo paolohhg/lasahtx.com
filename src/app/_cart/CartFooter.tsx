@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
 import {
   useCartStore,
   canCheckout,
@@ -8,23 +10,22 @@ import {
   getTotalQuantity,
   MIN_BOWLS,
 } from "@/stores/cart-store";
+import { createCheckoutSession } from "./actions";
 
 interface CartFooterProps {
   /** Drawer footer shows an extra "View full page" link; /cart page doesn't. */
   showPageLink: boolean;
-  /** Called when checkout navigation starts (e.g., drawer uses this to close). */
-  onCheckoutClick?: () => void;
   /** Called when user confirms clear (drawer closes after clearing if provided). */
   onClearConfirmed?: () => void;
 }
 
 export function CartFooter({
   showPageLink,
-  onCheckoutClick,
   onClearConfirmed,
 }: CartFooterProps) {
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clearCart);
+  const [pending, setPending] = useState(false);
 
   const subtotal = getSubtotalUSD(items);
   const totalQty = getTotalQuantity(items);
@@ -36,6 +37,19 @@ export function CartFooter({
     if (window.confirm("Remove all items from your cart?")) {
       clearCart();
       onClearConfirmed?.();
+    }
+  };
+
+  const handleCheckout = async () => {
+    setPending(true);
+    // On success, the server action calls redirect(session.url) — the browser
+    // navigates to Stripe and this function's awaited promise never resolves
+    // in the current page. If we reach the lines after await, something
+    // failed and we received an error result.
+    const result = await createCheckoutSession(items);
+    setPending(false);
+    if (result && "ok" in result && !result.ok) {
+      toast.error(result.message);
     }
   };
 
@@ -53,7 +67,8 @@ export function CartFooter({
         <button
           type="button"
           onClick={handleClear}
-          className="text-muted-foreground hover:text-destructive underline underline-offset-2 transition-colors"
+          disabled={pending}
+          className="text-muted-foreground hover:text-destructive underline underline-offset-2 transition-colors disabled:opacity-50"
         >
           Clear cart
         </button>
@@ -77,13 +92,14 @@ export function CartFooter({
 
       {/* Checkout button */}
       {valid ? (
-        <Link
-          href="/checkout"
-          onClick={onCheckoutClick}
-          className="w-full inline-flex items-center justify-center bg-accent text-accent-foreground hover:bg-accent/90 font-sans font-semibold tracking-wide py-4 text-sm transition-colors"
+        <button
+          type="button"
+          onClick={handleCheckout}
+          disabled={pending}
+          className="w-full inline-flex items-center justify-center bg-accent text-accent-foreground hover:bg-accent/90 disabled:opacity-70 disabled:cursor-wait font-sans font-semibold tracking-wide py-4 text-sm transition-colors"
         >
-          Checkout — ${subtotal.toFixed(2)}
-        </Link>
+          {pending ? "Sending to checkout\u2026" : `Checkout \u2014 $${subtotal.toFixed(2)}`}
+        </button>
       ) : (
         <button
           type="button"
