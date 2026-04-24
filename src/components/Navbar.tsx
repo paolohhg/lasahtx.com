@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
+import { CartDrawerTrigger } from "@/app/_cart/CartDrawerTrigger";
 
 const links = [
   { href: "/", label: "Home" },
@@ -36,31 +37,35 @@ export function Navbar() {
           LASA HTX
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={cn(
-                "text-sm font-medium tracking-wide uppercase transition-colors hover:text-accent",
-                pathname === l.href
-                  ? "text-accent"
-                  : "text-primary-foreground/80"
-              )}
-            >
-              {l.label}
-            </Link>
-          ))}
-        </div>
+        <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-8">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={cn(
+                  "text-sm font-medium tracking-wide uppercase transition-colors hover:text-accent",
+                  pathname === l.href
+                    ? "text-accent"
+                    : "text-primary-foreground/80"
+                )}
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
 
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2"
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+          <CartDrawerTrigger />
+
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {mobileOpen && (
