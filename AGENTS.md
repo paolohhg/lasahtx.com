@@ -83,6 +83,25 @@ Rules:
 - **Placeholders are expected.** On `/meal-prep`, an empty `variants` array on a bowl renders a "Coming Soon" card (no Add to Cart). On `/pop-ups`, `stripePaymentLinkUrl: ""` disables the Order button for that drop.
 - **JSON-LD reads the same module.** The `Event` schema on `/pop-ups` and the `Menu`/`Product` schema on `/meal-prep` both map from the same typed entries that drive the UI — one source of truth per content type.
 
+## Inventory roadmap (/meal-prep)
+
+Three-level progression. Know which one is live before editing — don't
+re-architect toward a later level from inside an earlier one.
+
+- **Level 2 (v1, session 5a):** `available?: boolean` flag on each
+  `BowlVariant` in `src/content/meal-prep.ts`. Undefined = available. `false`
+  filters the variant from the picker and flips its JSON-LD `Offer` to
+  `OutOfStock`. All-variants-unavailable bowls render "Sold Out This Week"
+  with disabled CTA. Changes require a content-module edit + Vercel redeploy.
+- **Level 3 (post-launch, target 4–8 weeks):** Stripe `product.updated`
+  webhook syncs availability automatically. Archiving in Stripe dashboard
+  reflects on the site within seconds. Bundles with session 5c's webhook
+  infrastructure. JSON-LD availability becomes real-time at this point —
+  update SEO schema notes when Level 3 lands.
+- **Level 4 (future, only if /meal-prep becomes primary revenue):** real
+  inventory, stock counts, weekly rotation logic, admin UI. Separate project
+  scope, not a migration-session scope.
+
 ## SEO non-negotiables
 
 - Server-rendered HTML on every public page. If it matters for SEO or social link previews, it ships in the initial HTML response.
