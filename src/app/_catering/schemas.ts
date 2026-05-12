@@ -61,6 +61,7 @@ export const eventTypes = [
   "Medical / Pharma",
   "Grand Opening",
   "Private Event",
+  "Private Pop-Up",
   "Wedding",
   "Real Estate Event",
   "Other",

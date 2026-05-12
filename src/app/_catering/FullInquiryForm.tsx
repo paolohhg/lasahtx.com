@@ -58,6 +58,19 @@ export function FullInquiryForm() {
   const [guestCount, setGuestCount] = useState("");
   const [budgetRange, setBudgetRange] = useState("");
   const [eventType, setEventType] = useState("");
+  const isPrivatePopUp = eventType === "Private Pop-Up";
+
+  useEffect(() => {
+    const requestedEventType = new URLSearchParams(window.location.search).get(
+      "eventType"
+    );
+    if (
+      requestedEventType &&
+      eventTypes.some((option) => option === requestedEventType)
+    ) {
+      setEventType(requestedEventType);
+    }
+  }, []);
 
   useEffect(() => {
     if (state.status === "ok") {
@@ -107,11 +120,12 @@ export function FullInquiryForm() {
           className="text-center mb-12"
         >
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-4">
-            Get Catering Proposal
+            {isPrivatePopUp ? "Book a Private Pop-Up" : "Get Catering Proposal"}
           </h2>
           <p className="text-muted-foreground text-sm font-sans tracking-wide">
-            We respond within 24 hours. Limited daily capacity to maintain
-            execution standards.
+            {isPrivatePopUp
+              ? "Tell us what you want to host and we’ll follow up with availability, menu direction, and next steps."
+              : "We respond within 24 hours. Limited daily capacity to maintain execution standards."}
           </p>
         </motion.div>
 
@@ -290,7 +304,11 @@ export function FullInquiryForm() {
             size="lg"
             className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-sans font-semibold tracking-wide py-6 text-sm"
           >
-            {pending ? "Sending..." : "Get Catering Proposal"}
+            {pending
+              ? "Sending..."
+              : isPrivatePopUp
+                ? "Send Private Pop-Up Inquiry"
+                : "Get Catering Proposal"}
           </Button>
 
           <p className="text-center text-muted-foreground text-xs font-sans tracking-wide pt-1">

@@ -130,7 +130,7 @@ export default function PopUpsPage() {
               View Drops
             </Link>
             <Link
-              href="/catering#inquiry-form"
+              href="/catering?eventType=Private%20Pop-Up#inquiry-form"
               className="inline-flex h-14 items-center justify-center border border-primary-foreground/30 px-8 text-sm font-semibold uppercase tracking-wide text-primary-foreground transition-colors hover:bg-primary-foreground/10"
             >
               Book a Private Pop-Up
@@ -204,10 +204,10 @@ export default function PopUpsPage() {
                 released.
               </p>
               <Link
-                href="/catering"
+                href="/catering?eventType=Private%20Pop-Up#inquiry-form"
                 className="mt-8 inline-flex h-12 items-center justify-center bg-accent px-6 text-sm font-semibold uppercase tracking-wide text-accent-foreground transition-colors hover:bg-accent/90"
               >
-                Explore Catering
+                Plan a Private Pop-Up
               </Link>
             </div>
           )}
