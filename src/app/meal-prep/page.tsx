@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { mealPrepBowls } from "@/content/meal-prep";
-import { siteUrl } from "@/lib/site";
+import { pickupLocation, siteUrl } from "@/lib/site";
 import { Hero } from "../_meal-prep/Hero";
 import { OrderDetails } from "../_meal-prep/OrderDetails";
 import { BowlGrid } from "../_meal-prep/BowlGrid";
+
+const pickupCity = pickupLocation.addressLocality;
 
 export const metadata: Metadata = {
   title: {
@@ -11,10 +13,10 @@ export const metadata: Metadata = {
       "Filipino Meal Prep Bowls \u2014 Houston Area Pickup | Lasa HTX",
   },
   description:
-    "Chef-driven Filipino meal prep bowls \u2014 prepared fresh weekly. Pickup only at The Deck Food Park in Magnolia, TX. 4-bowl minimum. Customize protein and add-ons in cart.",
+    `Chef-driven Filipino meal prep bowls \u2014 prepared fresh weekly. Pickup only at ${pickupLocation.name} in ${pickupCity}, TX. 4-bowl minimum. Customize protein and add-ons in cart.`,
   keywords: [
     "Filipino meal prep Houston",
-    "Filipino meal prep Magnolia",
+    "Filipino meal prep Midtown Houston",
     "weekly meal prep pickup Houston",
     "Asian meal prep The Woodlands",
     "sinigang bowl",
@@ -24,14 +26,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Filipino Meal Prep Bowls \u2014 Lasa HTX",
     description:
-      "Fresh weekly pickup at The Deck Food Park, Magnolia. Customize protein and add-ons. 4-bowl minimum.",
+      `Fresh weekly pickup at ${pickupLocation.name}, ${pickupCity}. Customize protein and add-ons. 4-bowl minimum.`,
     url: "/meal-prep",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Filipino Meal Prep Bowls \u2014 Lasa HTX",
-    description: "Fresh weekly. Pickup in Magnolia. 4-bowl minimum.",
+    description: `Fresh weekly. Pickup in ${pickupCity}. 4-bowl minimum.`,
   },
   alternates: {
     canonical: "/meal-prep",

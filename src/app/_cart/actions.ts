@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
-import { siteUrl } from "@/lib/site";
+import { pickupAddressSingleLine, siteUrl } from "@/lib/site";
 import { addOns, mealPrepBowls } from "@/content/meal-prep";
 import { MIN_BOWLS, type CartItem } from "@/stores/cart-store";
 
@@ -163,8 +163,7 @@ export async function createCheckoutSession(
       cancel_url: `${siteUrl}/cart`,
       custom_text: {
         submit: {
-          message:
-            "Pickup at The Deck Food Park, 5802 FM 1488, Magnolia, TX. We'll email you when your order is ready.",
+          message: `Pickup at ${pickupAddressSingleLine}. We'll email you when your order is ready.`,
         },
       },
     });

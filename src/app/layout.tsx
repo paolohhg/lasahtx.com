@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { siteUrl } from "@/lib/site";
+import { pickupLocation, siteUrl } from "@/lib/site";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -94,9 +94,11 @@ const globalSchema = {
       email: "catering@lasahtx.com",
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Magnolia",
-        addressRegion: "TX",
-        addressCountry: "US",
+        streetAddress: pickupLocation.streetAddress,
+        addressLocality: pickupLocation.addressLocality,
+        addressRegion: pickupLocation.addressRegion,
+        postalCode: pickupLocation.postalCode,
+        addressCountry: pickupLocation.addressCountry,
       },
       areaServed: [
         { "@type": "City", name: "Houston" },

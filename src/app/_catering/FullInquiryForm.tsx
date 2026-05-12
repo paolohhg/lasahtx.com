@@ -68,7 +68,8 @@ export function FullInquiryForm() {
       requestedEventType &&
       eventTypes.some((option) => option === requestedEventType)
     ) {
-      setEventType(requestedEventType);
+      const id = window.setTimeout(() => setEventType(requestedEventType), 0);
+      return () => window.clearTimeout(id);
     }
   }, []);
 

@@ -1,4 +1,5 @@
 import { MapPin, ShoppingBasket, Truck } from "lucide-react";
+import { pickupAddressLines, pickupLocation } from "@/lib/site";
 import { MIN_BOWLS } from "@/stores/cart-store";
 
 export function OrderDetails() {
@@ -12,12 +13,12 @@ export function OrderDetails() {
           <div className="flex flex-col items-center text-center gap-2">
             <MapPin className="h-6 w-6 text-accent mb-2" />
             <p className="font-display text-lg leading-tight">
-              Pickup Only — The Deck Food Park
+              Pickup Only — {pickupLocation.name}
             </p>
             <p className="text-muted-foreground text-sm font-sans">
-              5802 FM 1488
+              {pickupAddressLines[0]}
               <br />
-              Magnolia, TX 77354
+              {pickupAddressLines[1]}
             </p>
           </div>
 

@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import type Stripe from "stripe";
+import { pickupAddressLines, pickupLocation } from "@/lib/site";
 
 const FROM_ADDRESS = '"Lasa HTX" <notifications@lasahtx.com>';
 /** Customer replies land with Paolo — inverted from session 4's catering
@@ -137,10 +138,10 @@ function buildHtml(args: {
       <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#666;margin:0 0 12px;font-weight:600;">
         Pickup Location
       </div>
-      <p style="font-size:16px;font-weight:600;margin:0 0 4px;color:#141414;">The Deck Food Park</p>
+      <p style="font-size:16px;font-weight:600;margin:0 0 4px;color:#141414;">${escapeHtml(pickupLocation.name)}</p>
       <p style="font-size:14px;margin:0 0 20px;color:#444;line-height:1.5;">
-        5802 FM 1488<br>
-        Magnolia, TX 77354
+        ${escapeHtml(pickupAddressLines[0])}<br>
+        ${escapeHtml(pickupAddressLines[1])}
       </p>
       <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#666;margin:0 0 8px;font-weight:600;">
         What to expect
@@ -213,9 +214,8 @@ function buildText(args: {
   lines.push("");
   lines.push("PICKUP LOCATION");
   lines.push("---------------");
-  lines.push("The Deck Food Park");
-  lines.push("5802 FM 1488");
-  lines.push("Magnolia, TX 77354");
+  lines.push(pickupLocation.name);
+  lines.push(...pickupAddressLines);
   lines.push("");
   lines.push("WHAT TO EXPECT");
   lines.push("--------------");

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import { CheckCircle2, MapPin, Mail, Phone } from "lucide-react";
+import { pickupAddressLines, pickupLocation } from "@/lib/site";
 import { ClearCartOnMount } from "../_thank-you/ClearCartOnMount";
 
 export const metadata: Metadata = {
@@ -142,11 +143,13 @@ export default async function ThankYouPage({ searchParams }: Props) {
           <MapPin className="h-5 w-5 text-accent" />
           Pickup Details
         </h2>
-        <p className="text-foreground font-medium mb-1">The Deck Food Park</p>
+        <p className="text-foreground font-medium mb-1">
+          {pickupLocation.name}
+        </p>
         <p className="text-muted-foreground text-sm mb-4">
-          5802 FM 1488
+          {pickupAddressLines[0]}
           <br />
-          Magnolia, TX 77354
+          {pickupAddressLines[1]}
         </p>
         <p className="text-sm text-muted-foreground">
           We&apos;ll reach out via phone within 24 hours to coordinate your
