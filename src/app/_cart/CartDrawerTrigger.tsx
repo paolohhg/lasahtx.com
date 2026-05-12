@@ -23,7 +23,10 @@ export function CartDrawerTrigger() {
   // Avoid SSR/hydration flicker on the badge — store hydrates from
   // localStorage after mount.
   const [hydrated, setHydrated] = useState(false);
-  useEffect(() => setHydrated(true), []);
+  useEffect(() => {
+    const id = window.setTimeout(() => setHydrated(true), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   const totalQty = hydrated ? getTotalQuantity(items) : 0;
   const itemLabel = totalQty === 1 ? "item" : "items";

@@ -16,6 +16,8 @@ export type ActionResult = {
 };
 
 const FROM_ADDRESS = '"Lasa HTX" <notifications@lasahtx.com>';
+const DEFAULT_CONTACT_EMAIL_TO =
+  "paolo@lasahtx.com, paolo@heardhospitalitygroup.com";
 
 function formDataToObject(fd: FormData): Record<string, string> {
   const out: Record<string, string> = {};
@@ -44,24 +46,26 @@ function escapeHtml(s: string): string {
 }
 
 async function sendEmail(opts: {
+  to?: string;
   subject: string;
-  replyTo: string;
+  replyTo?: string;
   html: string;
   text: string;
 }): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_EMAIL_TO;
-  if (!apiKey || !to) {
+  const contactEmail = process.env.CONTACT_EMAIL_TO || DEFAULT_CONTACT_EMAIL_TO;
+  if (!apiKey) {
     console.error(
-      "Resend config missing: set RESEND_API_KEY and CONTACT_EMAIL_TO in Vercel env"
+      "Resend config missing: set RESEND_API_KEY in the hosting environment"
     );
     throw new Error("Email service not configured");
   }
+  const replyTo = opts.replyTo ?? contactEmail.split(",")[0].trim();
   const resend = new Resend(apiKey);
   const { error } = await resend.emails.send({
     from: FROM_ADDRESS,
-    to,
-    replyTo: opts.replyTo,
+    to: opts.to ?? contactEmail,
+    replyTo,
     subject: opts.subject,
     html: opts.html,
     text: opts.text,
@@ -121,6 +125,35 @@ function quickQuoteText(d: QuickQuoteInput): string {
   return lines.join("\n");
 }
 
+function quickQuoteConfirmationHtml(d: QuickQuoteInput): string {
+  return `${emailWrapperOpen}
+    <h1 style="font-size:20px; margin:0 0 16px; color:#222;">We received your catering quote request</h1>
+    <p style="color:#444; font-size:14px; line-height:1.6; margin:0 0 20px;">
+      Hi ${escapeHtml(d.name)}, thanks for reaching out to Lasa HTX. We have your request and will follow up within 24 hours.
+    </p>
+    <table style="width:100%; border-collapse:collapse;">
+      ${row("Event Date", d.eventDate)}
+      ${row("Guest Count", d.guestCount)}
+    </table>
+    <p style="color:#666; font-size:13px; line-height:1.6; margin-top:24px;">
+      Need to add details? Reply to this email or call/text 832-510-8440.
+    </p>
+  ${emailWrapperClose}`;
+}
+
+function quickQuoteConfirmationText(d: QuickQuoteInput): string {
+  return [
+    `Hi ${d.name},`,
+    ``,
+    `Thanks for reaching out to Lasa HTX. We received your catering quote request and will follow up within 24 hours.`,
+    ``,
+    `Event Date: ${d.eventDate}`,
+    `Guest Count: ${d.guestCount}`,
+    ``,
+    `Need to add details? Reply to this email or call/text 832-510-8440.`,
+  ].join("\n");
+}
+
 function fullInquiryHtml(d: FullInquiryInput): string {
   return `${emailWrapperOpen}
     <h1 style="font-size:20px; margin:0 0 24px; color:#222;">New Catering Full Inquiry</h1>
@@ -157,6 +190,44 @@ function fullInquiryText(d: FullInquiryInput): string {
   return lines.join("\n");
 }
 
+function fullInquiryConfirmationHtml(d: FullInquiryInput): string {
+  return `${emailWrapperOpen}
+    <h1 style="font-size:20px; margin:0 0 16px; color:#222;">We received your catering inquiry</h1>
+    <p style="color:#444; font-size:14px; line-height:1.6; margin:0 0 20px;">
+      Hi ${escapeHtml(d.name)}, thanks for reaching out to Lasa HTX. We have your event details and will follow up within 24 hours.
+    </p>
+    <table style="width:100%; border-collapse:collapse;">
+      ${row("Event Date", d.eventDate)}
+      ${row("Guest Count", d.guestCount)}
+      ${row("Budget Range", d.budgetRange)}
+      ${row("Event Type", d.eventType)}
+      ${row("Event Location", d.eventLocation)}
+    </table>
+    <p style="color:#666; font-size:13px; line-height:1.6; margin-top:24px;">
+      Need to add details? Reply to this email or call/text 832-510-8440.
+    </p>
+  ${emailWrapperClose}`;
+}
+
+function fullInquiryConfirmationText(d: FullInquiryInput): string {
+  const lines = [
+    `Hi ${d.name},`,
+    ``,
+    `Thanks for reaching out to Lasa HTX. We received your catering inquiry and will follow up within 24 hours.`,
+    ``,
+    `Event Date: ${d.eventDate}`,
+    `Guest Count: ${d.guestCount}`,
+  ];
+  if (d.budgetRange) lines.push(`Budget Range: ${d.budgetRange}`);
+  if (d.eventType) lines.push(`Event Type: ${d.eventType}`);
+  if (d.eventLocation) lines.push(`Event Location: ${d.eventLocation}`);
+  lines.push(
+    ``,
+    `Need to add details? Reply to this email or call/text 832-510-8440.`
+  );
+  return lines.join("\n");
+}
+
 /* ── Server actions ─────────────────────────────────────────────────── */
 
 export async function submitQuickQuote(
@@ -181,12 +252,20 @@ export async function submitQuickQuote(
   const d = parsed.data;
 
   try {
-    await sendEmail({
-      subject: `Lasa HTX — Catering Quick Quote from ${d.name}`,
-      replyTo: d.email,
-      html: quickQuoteHtml(d),
-      text: quickQuoteText(d),
-    });
+    await Promise.all([
+      sendEmail({
+        subject: `Lasa HTX — Catering Quick Quote from ${d.name}`,
+        replyTo: d.email,
+        html: quickQuoteHtml(d),
+        text: quickQuoteText(d),
+      }),
+      sendEmail({
+        to: d.email,
+        subject: "We received your Lasa HTX catering request",
+        html: quickQuoteConfirmationHtml(d),
+        text: quickQuoteConfirmationText(d),
+      }),
+    ]);
     return { status: "ok" };
   } catch (err) {
     console.error("submitQuickQuote send failed:", err);
@@ -224,12 +303,20 @@ export async function submitFullInquiry(
     (d.eventDate ? ` on ${d.eventDate}` : "");
 
   try {
-    await sendEmail({
-      subject,
-      replyTo: d.email,
-      html: fullInquiryHtml(d),
-      text: fullInquiryText(d),
-    });
+    await Promise.all([
+      sendEmail({
+        subject,
+        replyTo: d.email,
+        html: fullInquiryHtml(d),
+        text: fullInquiryText(d),
+      }),
+      sendEmail({
+        to: d.email,
+        subject: "We received your Lasa HTX catering inquiry",
+        html: fullInquiryConfirmationHtml(d),
+        text: fullInquiryConfirmationText(d),
+      }),
+    ]);
     return { status: "ok" };
   } catch (err) {
     console.error("submitFullInquiry send failed:", err);

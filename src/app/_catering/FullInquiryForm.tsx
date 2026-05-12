@@ -63,10 +63,13 @@ export function FullInquiryForm() {
     if (state.status === "ok") {
       toast.success("Thanks! We received your request.");
       formRef.current?.reset();
-      setGuestCount("");
-      setBudgetRange("");
-      setEventType("");
-      setClientErrors({});
+      const id = window.setTimeout(() => {
+        setGuestCount("");
+        setBudgetRange("");
+        setEventType("");
+        setClientErrors({});
+      }, 0);
+      return () => window.clearTimeout(id);
     } else if (state.status === "error" && state.message) {
       toast.error(state.message);
     }

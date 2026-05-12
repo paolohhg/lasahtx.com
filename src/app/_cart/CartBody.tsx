@@ -21,7 +21,10 @@ export function CartBody({ context, onClose }: CartBodyProps) {
   // Avoid SSR/hydration flicker — store hydrates from localStorage after mount.
   // Until then, show nothing rather than flashing the empty state.
   const [hydrated, setHydrated] = useState(false);
-  useEffect(() => setHydrated(true), []);
+  useEffect(() => {
+    const id = window.setTimeout(() => setHydrated(true), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   if (!hydrated) {
     return (
