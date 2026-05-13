@@ -18,6 +18,8 @@ export type ActionResult = {
 const FROM_ADDRESS = '"Lasa HTX" <notifications@lasahtx.com>';
 const DEFAULT_CONTACT_EMAIL_TO =
   "paolo@lasahtx.com, paolo@heardhospitalitygroup.com";
+const DEFAULT_CRM_INBOUND_URL =
+  "https://hospitality-os-core.vercel.app/api/inbound/leads";
 
 function formDataToObject(fd: FormData): Record<string, string> {
   const out: Record<string, string> = {};
@@ -73,6 +75,52 @@ async function sendEmail(opts: {
   if (error) {
     console.error("Resend send error:", error);
     throw new Error(error.message ?? "Resend send failed");
+  }
+}
+
+async function sendCrmInboundLead(payload: Record<string, string | undefined>) {
+  const sourceKey = process.env.HOSPITALITY_CRM_SOURCE_KEY;
+  const sourceSecret = process.env.HOSPITALITY_CRM_SOURCE_SECRET;
+  const inboundUrl =
+    process.env.HOSPITALITY_CRM_INBOUND_URL ?? DEFAULT_CRM_INBOUND_URL;
+
+  if (!sourceKey || !sourceSecret) {
+    console.error(
+      "Hospitality CRM inbound config missing: set HOSPITALITY_CRM_SOURCE_KEY and HOSPITALITY_CRM_SOURCE_SECRET"
+    );
+    return;
+  }
+
+  try {
+    const response = await fetch(inboundUrl, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-hospitality-source-key": sourceKey,
+        "x-hospitality-source-secret": sourceSecret,
+      },
+      body: JSON.stringify({
+        ...payload,
+        campaign: "lasa-catering-form",
+        medium: "website_form",
+        origin: "https://lasahtx.com",
+        page_url: "https://lasahtx.com/catering",
+        source: "LASA HTX website",
+        utm_campaign: "lasa-catering-form",
+        utm_medium: "website_form",
+        utm_source: "lasa_htx",
+      }),
+    });
+
+    if (!response.ok) {
+      console.error(
+        "Hospitality CRM inbound failed:",
+        response.status,
+        await response.text()
+      );
+    }
+  } catch (err) {
+    console.error("Hospitality CRM inbound request failed:", err);
   }
 }
 
@@ -265,6 +313,16 @@ export async function submitQuickQuote(
         html: quickQuoteConfirmationHtml(d),
         text: quickQuoteConfirmationText(d),
       }),
+      sendCrmInboundLead({
+        company: d.company,
+        email: d.email,
+        expected_close_date: d.eventDate,
+        guest_count: d.guestCount,
+        message: `Quick quote request for ${d.guestCount} guests on ${d.eventDate}.`,
+        name: d.name,
+        opportunity_name: `LASA HTX catering quick quote - ${d.name}`,
+        phone: d.phone,
+      }),
     ]);
     return { status: "ok" };
   } catch (err) {
@@ -315,6 +373,20 @@ export async function submitFullInquiry(
         subject: "We received your Lasa HTX catering inquiry",
         html: fullInquiryConfirmationHtml(d),
         text: fullInquiryConfirmationText(d),
+      }),
+      sendCrmInboundLead({
+        budget_range: d.budgetRange,
+        company: d.company,
+        email: d.email,
+        event_date: d.eventDate,
+        event_location: d.eventLocation,
+        event_type: d.eventType,
+        expected_close_date: d.eventDate,
+        guest_count: d.guestCount,
+        message: d.notes || fullInquiryText(d),
+        name: d.name,
+        opportunity_name: `LASA HTX catering inquiry - ${d.name}`,
+        phone: d.phone,
       }),
     ]);
     return { status: "ok" };
