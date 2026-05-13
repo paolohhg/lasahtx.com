@@ -96,6 +96,7 @@ async function sendCrmInboundLead(payload: Record<string, string | undefined>) {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        origin: "https://www.lasahtx.com",
         "x-hospitality-source-key": sourceKey,
         "x-hospitality-source-secret": sourceSecret,
       },
@@ -103,8 +104,8 @@ async function sendCrmInboundLead(payload: Record<string, string | undefined>) {
         ...payload,
         campaign: "lasa-catering-form",
         medium: "website_form",
-        origin: "https://lasahtx.com",
-        page_url: "https://lasahtx.com/catering",
+        origin: "https://www.lasahtx.com",
+        page_url: "https://www.lasahtx.com/catering",
         source: "LASA HTX website",
         utm_campaign: "lasa-catering-form",
         utm_medium: "website_form",
