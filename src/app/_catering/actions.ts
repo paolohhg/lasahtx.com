@@ -47,8 +47,15 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
+function parseRecipients(value: string): string[] {
+  return value
+    .split(",")
+    .map((recipient) => recipient.trim())
+    .filter(Boolean);
+}
+
 async function sendEmail(opts: {
-  to?: string;
+  to?: string | string[];
   subject: string;
   replyTo?: string;
   html: string;
@@ -56,17 +63,18 @@ async function sendEmail(opts: {
 }): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   const contactEmail = process.env.CONTACT_EMAIL_TO || DEFAULT_CONTACT_EMAIL_TO;
+  const contactRecipients = parseRecipients(contactEmail);
   if (!apiKey) {
     console.error(
       "Resend config missing: set RESEND_API_KEY in the hosting environment"
     );
     throw new Error("Email service not configured");
   }
-  const replyTo = opts.replyTo ?? contactEmail.split(",")[0].trim();
+  const replyTo = opts.replyTo ?? contactRecipients[0];
   const resend = new Resend(apiKey);
   const { error } = await resend.emails.send({
     from: FROM_ADDRESS,
-    to: opts.to ?? contactEmail,
+    to: opts.to ?? contactRecipients,
     replyTo,
     subject: opts.subject,
     html: opts.html,
