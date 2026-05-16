@@ -5,6 +5,7 @@ import type { ZodError } from "zod";
 import {
   quickQuoteSchema,
   fullInquirySchema,
+  smsConsentDisclosure,
   type QuickQuoteInput,
   type FullInquiryInput,
 } from "./schemas";
@@ -149,6 +150,10 @@ function row(label: string, value: string | undefined): string {
   </tr>`;
 }
 
+function smsConsentLabel(value: string | undefined): string {
+  return value === "agreed" ? "Yes - customer opted in" : "No";
+}
+
 function quickQuoteHtml(d: QuickQuoteInput): string {
   return `${emailWrapperOpen}
     <h1 style="font-size:20px; margin:0 0 24px; color:#222;">New Catering Quick Quote</h1>
@@ -159,6 +164,8 @@ function quickQuoteHtml(d: QuickQuoteInput): string {
       ${row("Phone", d.phone)}
       ${row("Event Date", d.eventDate)}
       ${row("Guest Count", d.guestCount)}
+      ${row("SMS Consent", smsConsentLabel(d.smsConsent))}
+      ${d.smsConsent === "agreed" ? row("Consent Language", smsConsentDisclosure) : ""}
     </table>
     <p style="color:#999; font-size:12px; margin-top:24px; padding-top:16px; border-top:1px solid #eee;">
       Reply directly to this email to respond to ${escapeHtml(d.name)} at ${escapeHtml(d.email)}.
@@ -177,6 +184,10 @@ function quickQuoteText(d: QuickQuoteInput): string {
   lines.push(`Phone: ${d.phone}`);
   lines.push(`Event Date: ${d.eventDate}`);
   lines.push(`Guest Count: ${d.guestCount}`);
+  lines.push(`SMS Consent: ${smsConsentLabel(d.smsConsent)}`);
+  if (d.smsConsent === "agreed") {
+    lines.push(`Consent Language: ${smsConsentDisclosure}`);
+  }
   lines.push(``);
   lines.push(`Reply to this email to respond to ${d.name}.`);
   return lines.join("\n");
@@ -225,6 +236,8 @@ function fullInquiryHtml(d: FullInquiryInput): string {
       ${row("Event Type", d.eventType)}
       ${row("Event Location", d.eventLocation)}
       ${row("Notes", d.notes)}
+      ${row("SMS Consent", smsConsentLabel(d.smsConsent))}
+      ${d.smsConsent === "agreed" ? row("Consent Language", smsConsentDisclosure) : ""}
     </table>
     <p style="color:#999; font-size:12px; margin-top:24px; padding-top:16px; border-top:1px solid #eee;">
       Reply directly to this email to respond to ${escapeHtml(d.name)} at ${escapeHtml(d.email)}.
@@ -243,6 +256,10 @@ function fullInquiryText(d: FullInquiryInput): string {
   if (d.eventType) lines.push(`Event Type: ${d.eventType}`);
   if (d.eventLocation) lines.push(`Event Location: ${d.eventLocation}`);
   if (d.notes) lines.push(``, `Notes:`, d.notes);
+  lines.push(`SMS Consent: ${smsConsentLabel(d.smsConsent)}`);
+  if (d.smsConsent === "agreed") {
+    lines.push(`Consent Language: ${smsConsentDisclosure}`);
+  }
   lines.push(``, `Reply to this email to respond to ${d.name}.`);
   return lines.join("\n");
 }

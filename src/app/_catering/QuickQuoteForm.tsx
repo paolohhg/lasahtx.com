@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { submitQuickQuote, type ActionResult } from "./actions";
 import { quickQuoteSchema, guestCountOptions } from "./schemas";
+import { SmsConsentField } from "./SmsConsentField";
 
 const initialState: ActionResult = { status: "idle" };
 
@@ -169,6 +170,8 @@ export function QuickQuoteForm() {
           <p className="text-destructive text-xs mt-1">{err("guestCount")}</p>
         )}
       </div>
+
+      <SmsConsentField id="quick-quote-sms-consent" />
 
       <Button
         type="submit"

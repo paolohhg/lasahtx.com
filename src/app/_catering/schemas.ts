@@ -21,6 +21,9 @@ const phone = z
 
 const required = z.string().trim().min(1, "Required");
 
+export const smsConsentDisclosure =
+  "I agree to receive recurring SMS messages from Lasa HTX about catering inquiries, quotes, event updates, and hospitality offers at the phone number provided. Message frequency varies. Message and data rates may apply. Reply STOP to opt out and HELP for help. Consent is not a condition of purchase.";
+
 export const quickQuoteSchema = z.object({
   company: z.string().trim().optional(),
   name: required,
@@ -28,6 +31,7 @@ export const quickQuoteSchema = z.object({
   phone,
   eventDate: required,
   guestCount: required,
+  smsConsent: z.string().trim().optional(),
   website_url_xz7: z.string().optional(), // honeypot; actions.ts handles
 });
 

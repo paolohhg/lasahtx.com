@@ -20,6 +20,7 @@ import {
   budgetOptions,
   eventTypes,
 } from "./schemas";
+import { SmsConsentField } from "./SmsConsentField";
 
 const initialState: ActionResult = { status: "idle" };
 
@@ -298,6 +299,8 @@ export function FullInquiryForm() {
             rows={4}
             className="bg-white/5 border-border text-foreground placeholder:text-muted-foreground focus-visible:ring-accent"
           />
+
+          <SmsConsentField id="full-inquiry-sms-consent" />
 
           <Button
             type="submit"

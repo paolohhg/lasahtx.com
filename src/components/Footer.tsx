@@ -72,6 +72,20 @@ export function Footer() {
         <div className="border-t border-primary-foreground/10 pt-8 text-center">
           <p className="text-xs text-primary-foreground/60">
             © {new Date().getFullYear()} LASA HTX. All rights reserved.
+            <span className="mx-2">/</span>
+            <Link
+              href="/privacy"
+              className="hover:text-accent transition-colors"
+            >
+              Privacy
+            </Link>
+            <span className="mx-2">/</span>
+            <Link
+              href="/sms-terms"
+              className="hover:text-accent transition-colors"
+            >
+              SMS Terms
+            </Link>
           </p>
         </div>
       </div>
