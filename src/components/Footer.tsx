@@ -45,8 +45,22 @@ export function Footer() {
               Connect
             </h4>
             <div className="flex flex-col gap-2 text-sm text-primary-foreground/60">
-              <span>Instagram</span>
-              <span>TikTok</span>
+              <a
+                href="https://www.instagram.com/lasahtx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent transition-colors"
+              >
+                Instagram @lasahtx
+              </a>
+              <a
+                href="https://www.tiktok.com/@lasahtx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent transition-colors"
+              >
+                TikTok @lasahtx
+              </a>
               <a
                 href="mailto:info@lasahtx.com"
                 className="hover:text-accent transition-colors"

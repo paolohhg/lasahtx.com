@@ -72,6 +72,10 @@ const globalSchema = {
       "@id": "https://lasahtx.com/#organization",
       name: "LASA HTX",
       url: "https://lasahtx.com/",
+      sameAs: [
+        "https://www.instagram.com/lasahtx",
+        "https://www.tiktok.com/@lasahtx",
+      ],
       founder: { "@type": "Person", name: "Paolo Nucum" },
       contactPoint: [
         {
