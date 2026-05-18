@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, Phone, Mail } from "lucide-react";
 import heroBg from "@/assets/catering-hero-bg.webp";
@@ -137,17 +138,18 @@ export function Hero() {
                 Request Corporate Catering Proposal
               </button>
               <a
-                href="tel:+18325108440"
+                href="/menus/lasa-htx-catering-menu.pdf"
+                download
                 className="inline-flex items-center justify-center border border-border bg-transparent text-foreground hover:bg-foreground/5 font-sans tracking-wide px-8 py-[1.375rem] text-sm transition-colors"
               >
-                Call (832) 510-8440
+                Download Menu
               </a>
-              <a
-                href="sms:+18325108440"
+              <Link
+                href="/catering-menu"
                 className="inline-flex items-center justify-center border border-border bg-transparent text-foreground hover:bg-foreground/5 font-sans tracking-wide px-8 py-[1.375rem] text-sm transition-colors"
               >
-                Text Us
-              </a>
+                View Full Menu
+              </Link>
             </motion.div>
           </div>
 

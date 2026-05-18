@@ -12,6 +12,7 @@ import { CartDrawerTrigger } from "@/app/_cart/CartDrawerTrigger";
 const links = [
   { href: "/", label: "Home" },
   { href: "/catering", label: "Catering" },
+  { href: "/catering-menu", label: "Menu" },
   { href: "/meal-prep", label: "Meal Prep" },
   { href: "/pop-ups", label: "Pop-Ups" },
   { href: "/about", label: "About" },

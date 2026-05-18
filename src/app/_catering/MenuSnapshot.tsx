@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChefHat, ArrowRight } from "lucide-react";
 import { scrollToInquiryForm } from "./scroll";
@@ -71,13 +72,20 @@ export function MenuSnapshot() {
         </div>
 
         <div className="text-center">
-          <button
-            onClick={scrollToInquiryForm}
-            className="inline-flex items-center justify-center border border-border bg-transparent text-foreground hover:bg-foreground/5 font-sans tracking-wide px-8 py-5 text-sm transition-colors"
-          >
-            Request a Custom Menu Proposal{" "}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </button>
+          <div className="flex flex-col justify-center gap-3 sm:flex-row">
+            <Link
+              href="/catering-menu"
+              className="inline-flex items-center justify-center border border-border bg-transparent text-foreground hover:bg-foreground/5 font-sans tracking-wide px-8 py-5 text-sm transition-colors"
+            >
+              View Full Catering Menu <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+            <button
+              onClick={scrollToInquiryForm}
+              className="inline-flex items-center justify-center bg-accent text-accent-foreground hover:bg-accent/90 font-sans tracking-wide px-8 py-5 text-sm transition-colors"
+            >
+              Request a Custom Menu Proposal
+            </button>
+          </div>
         </div>
       </div>
     </section>
