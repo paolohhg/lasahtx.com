@@ -235,6 +235,52 @@ function PrimaryCtas() {
   );
 }
 
+function PricePair({
+  label,
+  half,
+  full,
+  highlight = false,
+}: {
+  label: string;
+  half: string;
+  full: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div
+      className={`border border-border p-4 ${
+        highlight ? "bg-accent/5" : "bg-card"
+      }`}
+    >
+      <p
+        className={`mb-3 text-xs font-semibold uppercase tracking-wide ${
+          highlight ? "text-accent" : "text-muted-foreground"
+        }`}
+      >
+        {label}
+      </p>
+      <div className="grid grid-cols-2 gap-3 text-sm">
+        <div>
+          <p className="text-xs uppercase tracking-wide text-muted-foreground">
+            Half
+          </p>
+          <p className={highlight ? "font-semibold text-accent" : "font-medium"}>
+            {half.replace("Half ", "")}
+          </p>
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-wide text-muted-foreground">
+            Full
+          </p>
+          <p className={highlight ? "font-semibold text-accent" : "font-medium"}>
+            {full.replace("Full ", "")}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function CateringMenuPage() {
   return (
     <main className="bg-background text-foreground">
@@ -434,35 +480,30 @@ export default function CateringMenuPage() {
             {trayPricing.map((group) => (
               <div key={group.category}>
                 <h3 className="mb-5 font-display text-3xl">{group.category}</h3>
-                <div className="overflow-x-auto border border-border">
-                  <table className="w-full min-w-[720px] border-collapse text-left text-sm">
-                    <thead className="bg-card text-xs uppercase tracking-wide text-muted-foreground">
-                      <tr>
-                        <th className="px-4 py-3">Item</th>
-                        <th className="px-4 py-3" colSpan={2}>
-                          Standard
-                        </th>
-                        <th className="px-4 py-3 text-accent" colSpan={2}>
-                          Partner
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {group.items.map((item) => (
-                        <tr key={item[0]} className="border-t border-border">
-                          <td className="px-4 py-4 font-medium">{item[0]}</td>
-                          <td className="px-4 py-4 text-muted-foreground">
-                            {item[1]}
-                          </td>
-                          <td className="px-4 py-4 text-muted-foreground">
-                            {item[2]}
-                          </td>
-                          <td className="px-4 py-4 text-accent">{item[3]}</td>
-                          <td className="px-4 py-4 text-accent">{item[4]}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  {group.items.map((item) => (
+                    <div
+                      key={item[0]}
+                      className="min-w-0 border border-border p-5"
+                    >
+                      <h4 className="break-words font-display text-2xl">
+                        {item[0]}
+                      </h4>
+                      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                        <PricePair
+                          label="Standard"
+                          half={item[1]}
+                          full={item[2]}
+                        />
+                        <PricePair
+                          label="Partner"
+                          half={item[3]}
+                          full={item[4]}
+                          highlight
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -471,31 +512,36 @@ export default function CateringMenuPage() {
           <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div>
               <h3 className="mb-5 font-display text-3xl">Appetizers</h3>
-              <div className="overflow-x-auto border border-border">
-                <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-                  <thead className="bg-card text-xs uppercase tracking-wide text-muted-foreground">
-                    <tr>
-                      <th className="px-4 py-3">Item</th>
-                      <th className="px-4 py-3">Unit</th>
-                      <th className="px-4 py-3">Standard</th>
-                      <th className="px-4 py-3 text-accent">Partner</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {smallBites.map((item) => (
-                      <tr key={item[0]} className="border-t border-border">
-                        <td className="px-4 py-4 font-medium">{item[0]}</td>
-                        <td className="px-4 py-4 text-muted-foreground">
-                          {item[1]}
-                        </td>
-                        <td className="px-4 py-4 text-muted-foreground">
-                          {item[2]}
-                        </td>
-                        <td className="px-4 py-4 text-accent">{item[3]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="space-y-3">
+                {smallBites.map((item) => (
+                  <div
+                    key={item[0]}
+                    className="min-w-0 border border-border p-5"
+                  >
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+                      <h4 className="break-words font-display text-2xl">
+                        {item[0]}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">{item[1]}</p>
+                    </div>
+                    <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
+                      <div className="border border-border bg-card p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                          Standard
+                        </p>
+                        <p className="mt-2 font-medium">{item[2]}</p>
+                      </div>
+                      <div className="border border-border bg-accent/5 p-4">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-accent">
+                          Partner
+                        </p>
+                        <p className="mt-2 font-semibold text-accent">
+                          {item[3]}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
