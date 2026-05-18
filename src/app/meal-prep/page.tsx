@@ -45,11 +45,11 @@ const mealPrepSchema = {
   "@graph": [
     ...mealPrepBowls.map((b) => ({
       "@type": "Product",
-      "@id": `https://lasahtx.com/meal-prep#${b.id}`,
+      "@id": `https://www.lasahtx.com/meal-prep#${b.id}`,
       name: b.title,
       description: b.description,
       image: b.image ? `${siteUrl}${b.image}` : undefined,
-      brand: { "@id": "https://lasahtx.com/#business" },
+      brand: { "@id": "https://www.lasahtx.com/#business" },
       category: "Meal Prep / Filipino",
       offers: b.variants.map((v) => ({
         "@type": "Offer",
@@ -60,27 +60,27 @@ const mealPrepSchema = {
           v.available === false
             ? "https://schema.org/OutOfStock"
             : "https://schema.org/InStock",
-        seller: { "@id": "https://lasahtx.com/#business" },
-        url: "https://lasahtx.com/meal-prep",
+        seller: { "@id": "https://www.lasahtx.com/#business" },
+        url: "https://www.lasahtx.com/meal-prep",
       })),
     })),
     {
       "@type": "ItemList",
-      "@id": "https://lasahtx.com/meal-prep#list",
+      "@id": "https://www.lasahtx.com/meal-prep#list",
       name: "LASA HTX Meal Prep Bowls",
       numberOfItems: mealPrepBowls.length,
       itemListElement: mealPrepBowls.map((b, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        item: { "@id": `https://lasahtx.com/meal-prep#${b.id}` },
+        item: { "@id": `https://www.lasahtx.com/meal-prep#${b.id}` },
       })),
     },
     {
       "@type": "WebPage",
-      "@id": "https://lasahtx.com/meal-prep#page",
-      url: "https://lasahtx.com/meal-prep",
-      mainEntity: { "@id": "https://lasahtx.com/meal-prep#list" },
-      isPartOf: { "@id": "https://lasahtx.com/#website" },
+      "@id": "https://www.lasahtx.com/meal-prep#page",
+      url: "https://www.lasahtx.com/meal-prep",
+      mainEntity: { "@id": "https://www.lasahtx.com/meal-prep#list" },
+      isPartOf: { "@id": "https://www.lasahtx.com/#website" },
     },
   ],
 };

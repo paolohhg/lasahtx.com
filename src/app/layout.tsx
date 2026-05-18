@@ -69,9 +69,9 @@ const globalSchema = {
   "@graph": [
     {
       "@type": "Organization",
-      "@id": "https://lasahtx.com/#organization",
+      "@id": "https://www.lasahtx.com/#organization",
       name: "LASA HTX",
-      url: "https://lasahtx.com/",
+      url: "https://www.lasahtx.com/",
       sameAs: [
         "https://www.instagram.com/lasahtx",
         "https://www.tiktok.com/@lasahtx",
@@ -89,9 +89,9 @@ const globalSchema = {
     },
     {
       "@type": ["Restaurant", "Caterer"],
-      "@id": "https://lasahtx.com/#business",
+      "@id": "https://www.lasahtx.com/#business",
       name: "LASA HTX",
-      url: "https://lasahtx.com/",
+      url: "https://www.lasahtx.com/",
       servesCuisine: ["Filipino", "Modern Asian", "Asian Fusion"],
       priceRange: "$$",
       telephone: "+1-832-510-8440",
@@ -123,14 +123,14 @@ const globalSchema = {
         { "@type": "City", name: "Conroe" },
         { "@type": "Place", name: "Energy Corridor" },
       ],
-      parentOrganization: { "@id": "https://lasahtx.com/#organization" },
+      parentOrganization: { "@id": "https://www.lasahtx.com/#organization" },
     },
     {
       "@type": "WebSite",
-      "@id": "https://lasahtx.com/#website",
-      url: "https://lasahtx.com/",
+      "@id": "https://www.lasahtx.com/#website",
+      url: "https://www.lasahtx.com/",
       name: "LASA HTX",
-      publisher: { "@id": "https://lasahtx.com/#organization" },
+      publisher: { "@id": "https://www.lasahtx.com/#organization" },
     },
   ],
 };

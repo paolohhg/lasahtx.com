@@ -41,10 +41,10 @@ const aboutSchema = {
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://lasahtx.com/#paolo",
+      "@id": "https://www.lasahtx.com/#paolo",
       name: "Paolo Nucum",
       jobTitle: "Founder & Culinary Director",
-      worksFor: { "@id": "https://lasahtx.com/#organization" },
+      worksFor: { "@id": "https://www.lasahtx.com/#organization" },
       description:
         "30+ years in high-volume hospitality across New York, Las Vegas, and Houston. Filipino-rooted, culinarily diverse, service-obsessed.",
       knowsAbout: [
@@ -56,11 +56,11 @@ const aboutSchema = {
     },
     {
       "@type": "AboutPage",
-      "@id": "https://lasahtx.com/about#page",
-      url: "https://lasahtx.com/about",
-      mainEntity: { "@id": "https://lasahtx.com/#paolo" },
-      about: { "@id": "https://lasahtx.com/#business" },
-      isPartOf: { "@id": "https://lasahtx.com/#website" },
+      "@id": "https://www.lasahtx.com/about#page",
+      url: "https://www.lasahtx.com/about",
+      mainEntity: { "@id": "https://www.lasahtx.com/#paolo" },
+      about: { "@id": "https://www.lasahtx.com/#business" },
+      isPartOf: { "@id": "https://www.lasahtx.com/#website" },
     },
   ],
 };

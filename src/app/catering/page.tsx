@@ -74,19 +74,19 @@ const cateringSchema = {
   "@graph": [
     {
       "@type": "Service",
-      "@id": "https://lasahtx.com/catering#service",
+      "@id": "https://www.lasahtx.com/catering#service",
       name: "Corporate Catering",
       serviceType: "Corporate Catering",
-      provider: { "@id": "https://lasahtx.com/#business" },
+      provider: { "@id": "https://www.lasahtx.com/#business" },
       areaServed,
       description:
         "Chef-led Filipino-rooted modern Asian catering for 25\u2013500+ guests in Greater Houston. Licensed, insured, and built on structured high-volume systems.",
     },
     {
       "@type": "OfferCatalog",
-      "@id": "https://lasahtx.com/catering#catalog",
+      "@id": "https://www.lasahtx.com/catering#catalog",
       name: "LASA HTX Catering Services",
-      provider: { "@id": "https://lasahtx.com/#business" },
+      provider: { "@id": "https://www.lasahtx.com/#business" },
       itemListElement: [
         {
           "@type": "Offer",
@@ -101,7 +101,7 @@ const cateringSchema = {
           itemOffered: {
             "@type": "Service",
             name: "Corporate Catering",
-            provider: { "@id": "https://lasahtx.com/#business" },
+            provider: { "@id": "https://www.lasahtx.com/#business" },
           },
         },
         {
@@ -117,7 +117,7 @@ const cateringSchema = {
           itemOffered: {
             "@type": "Service",
             name: "Boxed Lunch Catering",
-            provider: { "@id": "https://lasahtx.com/#business" },
+            provider: { "@id": "https://www.lasahtx.com/#business" },
           },
         },
         {
@@ -127,17 +127,17 @@ const cateringSchema = {
           itemOffered: {
             "@type": "Service",
             name: "Tray Catering",
-            provider: { "@id": "https://lasahtx.com/#business" },
+            provider: { "@id": "https://www.lasahtx.com/#business" },
           },
         },
       ],
     },
     {
       "@type": "WebPage",
-      "@id": "https://lasahtx.com/catering#page",
-      url: "https://lasahtx.com/catering",
-      about: { "@id": "https://lasahtx.com/catering#service" },
-      isPartOf: { "@id": "https://lasahtx.com/#website" },
+      "@id": "https://www.lasahtx.com/catering#page",
+      url: "https://www.lasahtx.com/catering",
+      about: { "@id": "https://www.lasahtx.com/catering#service" },
+      isPartOf: { "@id": "https://www.lasahtx.com/#website" },
     },
   ],
 };

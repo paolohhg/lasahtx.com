@@ -1,8 +1,18 @@
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000");
+const productionSiteUrl = "https://www.lasahtx.com";
+
+function normalizeSiteUrl(url: string | undefined): string {
+  const normalized = (url ?? productionSiteUrl).trim().replace(/\/+$/, "");
+  if (
+    !normalized ||
+    normalized === "https://lasahtx.com" ||
+    normalized.endsWith(".vercel.app")
+  ) {
+    return productionSiteUrl;
+  }
+  return normalized;
+}
+
+export const siteUrl = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
 
 export const pickupLocation = {
   name: "Pok Pok Po",

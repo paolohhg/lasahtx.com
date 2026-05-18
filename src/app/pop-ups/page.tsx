@@ -51,7 +51,7 @@ const popUpsSchema = {
   "@graph": [
     ...popUps.map((event) => ({
       "@type": "FoodEvent",
-      "@id": `https://lasahtx.com/pop-ups#${event.id}`,
+      "@id": `https://www.lasahtx.com/pop-ups#${event.id}`,
       name: event.title,
       description: event.description,
       startDate: event.date,
@@ -67,7 +67,7 @@ const popUpsSchema = {
         name: event.location.name,
         address: event.location.address,
       },
-      organizer: { "@id": "https://lasahtx.com/#business" },
+      organizer: { "@id": "https://www.lasahtx.com/#business" },
       offers: event.stripePaymentLinkUrl
         ? {
             "@type": "Offer",
@@ -81,17 +81,17 @@ const popUpsSchema = {
     })),
     {
       "@type": "CollectionPage",
-      "@id": "https://lasahtx.com/pop-ups#page",
-      url: "https://lasahtx.com/pop-ups",
+      "@id": "https://www.lasahtx.com/pop-ups#page",
+      url: "https://www.lasahtx.com/pop-ups",
       name: "Lasa HTX Pop-Ups",
-      isPartOf: { "@id": "https://lasahtx.com/#website" },
+      isPartOf: { "@id": "https://www.lasahtx.com/#website" },
       mainEntity: {
         "@type": "ItemList",
         numberOfItems: popUps.length,
         itemListElement: popUps.map((event, index) => ({
           "@type": "ListItem",
           position: index + 1,
-          item: { "@id": `https://lasahtx.com/pop-ups#${event.id}` },
+          item: { "@id": `https://www.lasahtx.com/pop-ups#${event.id}` },
         })),
       },
     },

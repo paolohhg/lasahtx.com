@@ -51,11 +51,11 @@ const faqSchema = {
   "@graph": [
     {
       "@type": "FAQPage",
-      "@id": "https://lasahtx.com/corporate-catering-faq#faq",
-      url: "https://lasahtx.com/corporate-catering-faq",
+      "@id": "https://www.lasahtx.com/corporate-catering-faq#faq",
+      url: "https://www.lasahtx.com/corporate-catering-faq",
       mainEntity: faqSchemaQuestions,
-      about: { "@id": "https://lasahtx.com/#business" },
-      isPartOf: { "@id": "https://lasahtx.com/#website" },
+      about: { "@id": "https://www.lasahtx.com/#business" },
+      isPartOf: { "@id": "https://www.lasahtx.com/#website" },
     },
   ],
 };
