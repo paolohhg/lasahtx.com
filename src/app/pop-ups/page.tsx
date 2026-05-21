@@ -290,7 +290,7 @@ export default async function PopUpsPage() {
                     {event.status === "sold_out" ? "Sold Out" : "Upcoming"}
                   </div>
                   <h3 className="font-display text-3xl mb-4">{event.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+                  <p className="whitespace-pre-line text-muted-foreground text-sm leading-relaxed mb-6">
                     {event.description}
                   </p>
                   <div className="space-y-3 text-sm">
@@ -371,7 +371,7 @@ export default async function PopUpsPage() {
                     {formatEventDate(event.date)}
                   </p>
                   <h3 className="font-display text-2xl mb-3">{event.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="whitespace-pre-line text-muted-foreground text-sm leading-relaxed">
                     {event.description}
                   </p>
                 </article>
