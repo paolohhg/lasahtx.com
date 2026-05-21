@@ -11,6 +11,9 @@ import {
 } from "lucide-react";
 
 const pdfHref = "/menus/lasa-htx-catering-menu.pdf";
+const menuFeedUrl =
+  process.env.HOSPITALITY_OS_MENU_FEED_URL ??
+  "https://hospitality-os-core.vercel.app/api/public/menu?brand=lasa-htx";
 
 const serviceAreas = [
   "Houston",
@@ -120,80 +123,127 @@ const partnerBenefits = [
   "Direct founder-level relationship",
 ];
 
-const trayPricing = [
-  {
-    category: "Filipino Signatures",
-    items: [
-      ["Chicken Adobo", "Half $95", "Full $185", "Half $85", "Full $170"],
-      [
-        "Filipino BBQ Chicken",
-        "Half $105",
-        "Full $205",
-        "Half $95",
-        "Full $190",
-      ],
-      [
-        "Filipino BBQ Pork",
-        "Half $115",
-        "Full $225",
-        "Half $105",
-        "Full $210",
-      ],
-      ["Bistek Tagalog", "Half $125", "Full $245", "Half $115", "Full $230"],
-      ["Lechon Kawali", "Half $135", "Full $265", "Half $125", "Full $250"],
-      ["Beef Caldereta", "Half $115", "Full $220", "Half $105", "Full $205"],
-    ],
-  },
-  {
-    category: "Asian Favorites",
-    items: [
-      ["Korean Beef", "Half $115", "Full $225", "Half $105", "Full $210"],
-      ["Beef & Broccoli", "Half $120", "Full $235", "Half $110", "Full $220"],
-      ["Teriyaki Chicken", "Half $105", "Full $205", "Half $95", "Full $190"],
-      [
-        "Coconut Curry Chicken",
-        "Half $115",
-        "Full $220",
-        "Half $105",
-        "Full $205",
-      ],
-      ["Beef Rendang", "Half $115", "Full $220", "Half $105", "Full $205"],
-    ],
-  },
-  {
-    category: "Rice & Noodles",
-    items: [
-      ["Garlic Rice", "Half $55", "Full $95", "Half $50", "Full $85"],
-      [
-        "Steamed Jasmine Rice",
-        "Half $45",
-        "Full $80",
-        "Half $40",
-        "Full $70",
-      ],
-      ["Pancit Bihon", "Half $75", "Full $135", "Half $65", "Full $120"],
-    ],
-  },
-];
-
-const smallBites = [
-  ["Lumpia Shanghai", "50 pcs", "$85", "$75"],
-  ["Sisig Cups", "24 pcs", "$110", "$100"],
-  ["Filipino BBQ Chicken Skewers", "per skewer", "$4", "$3.50"],
-  ["Filipino BBQ Pork Skewers", "per skewer", "$4.50", "$4"],
-];
-
-const dessertAddOns = [
-  ["Coconut Pandan Flan", "10 person minimum", "$6 per person"],
-  ["Ube Flan", "10 person minimum", "$7 per person"],
-];
-
 const lunchPricing = [
   ["Standard Boxes", "Chicken, beef, tofu, pancit selections", "$16 - $18"],
   ["Premium Boxes", "Salmon & shrimp selections", "$19 - $24"],
   ["Corporate Volume", "50+ boxes per order", "$14 - $16 average"],
   ["Preferred Partner", "100+ boxes/month", "$15 flat across all boxes"],
 ];
+
+type MenuFeedSize = {
+  label: string;
+  partner_price: number | null;
+  serving_notes: string | null;
+  standard_price: number | null;
+};
+
+type MenuFeedItem = {
+  category: string;
+  description: string | null;
+  name: string;
+  sizes: MenuFeedSize[];
+};
+
+type MenuFeedCategory = {
+  description: string | null;
+  name: string;
+  sort_order: number;
+};
+
+type MenuFeed = {
+  categories?: MenuFeedCategory[];
+  items?: MenuFeedItem[];
+};
+
+type WebsiteMenu = {
+  categories: MenuFeedCategory[];
+  items: MenuFeedItem[];
+};
+
+const fallbackCategories = coreMenu.map((section, index) => ({
+  name: section.title === "Desserts" ? "Dessert Add-Ons" : section.title,
+  description: null,
+  sort_order: (index + 1) * 10,
+}));
+
+const fallbackMenuItems: MenuFeedItem[] = [
+  ...coreMenu.flatMap((section) => {
+    const category = section.title === "Desserts" ? "Dessert Add-Ons" : section.title;
+
+    return section.items.map((item) => {
+      const [name, detail] = item.split(" — ");
+
+      return {
+        name,
+        category,
+        description: detail ?? null,
+        sizes: [],
+      };
+    });
+  }),
+  ...lunchBoxes.map((box) => ({
+    name: box.name,
+    category: "Corporate Lunch Box Program",
+    description: box.detail,
+    sizes: [],
+  })),
+];
+
+function formatPrice(value: number | null) {
+  if (value === null || !Number.isFinite(value)) {
+    return "Price TBD";
+  }
+
+  return new Intl.NumberFormat("en-US", {
+    currency: "USD",
+    maximumFractionDigits: value % 1 === 0 ? 0 : 2,
+    style: "currency",
+  }).format(value);
+}
+
+function sizeDetail(size: MenuFeedSize) {
+  const details = [size.label, size.serving_notes].filter(Boolean);
+
+  return details.join(" · ");
+}
+
+function uniqueCategoryList(menu: WebsiteMenu) {
+  const seeded = menu.categories.map((category) => category.name);
+  const discovered = menu.items.map((item) => item.category);
+
+  return [...new Set([...seeded, ...discovered])];
+}
+
+function itemsByCategory(menu: WebsiteMenu, categoryName: string) {
+  return menu.items.filter((item) => item.category === categoryName);
+}
+
+async function getWebsiteMenu(): Promise<WebsiteMenu> {
+  try {
+    const response = await fetch(menuFeedUrl, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error(`Menu feed returned ${response.status}`);
+    }
+
+    const feed = (await response.json()) as MenuFeed;
+    const items = (feed.items ?? []).filter((item) => item.name && item.category);
+
+    if (!items.length) {
+      throw new Error("Menu feed returned no items");
+    }
+
+    return {
+      categories: feed.categories?.length ? feed.categories : fallbackCategories,
+      items,
+    };
+  } catch {
+    return {
+      categories: fallbackCategories,
+      items: fallbackMenuItems,
+    };
+  }
+}
 
 export const metadata: Metadata = {
   title: {
@@ -235,53 +285,14 @@ function PrimaryCtas() {
   );
 }
 
-function PricePair({
-  label,
-  half,
-  full,
-  highlight = false,
-}: {
-  label: string;
-  half: string;
-  full: string;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className={`border border-border p-4 ${
-        highlight ? "bg-accent/5" : "bg-card"
-      }`}
-    >
-      <p
-        className={`mb-3 text-xs font-semibold uppercase tracking-wide ${
-          highlight ? "text-accent" : "text-muted-foreground"
-        }`}
-      >
-        {label}
-      </p>
-      <div className="grid grid-cols-2 gap-3 text-sm">
-        <div>
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">
-            Half
-          </p>
-          <p className={highlight ? "font-semibold text-accent" : "font-medium"}>
-            {half.replace("Half ", "")}
-          </p>
-        </div>
-        <div>
-          <p className="text-xs uppercase tracking-wide text-muted-foreground">
-            Full
-          </p>
-          <p className={highlight ? "font-semibold text-accent" : "font-medium"}>
-            {full.replace("Full ", "")}
-          </p>
-        </div>
-      </div>
-    </div>
+export default async function CateringMenuPage() {
+  const websiteMenu = await getWebsiteMenu();
+  const categoryNames = uniqueCategoryList(websiteMenu);
+  const coreCategoryNames = categoryNames.filter(
+    (category) => category !== "Corporate Lunch Box Program",
   );
-}
+  const dynamicLunchBoxes = itemsByCategory(websiteMenu, "Corporate Lunch Box Program");
 
-export default function CateringMenuPage() {
   return (
     <main className="bg-background text-foreground">
       <section className="bg-primary pt-32 pb-20 text-primary-foreground md:pt-40">
@@ -359,16 +370,19 @@ export default function CateringMenuPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {coreMenu.map((section) => (
-              <div key={section.title} className="border border-border p-6">
+            {coreCategoryNames.map((categoryName) => (
+              <div key={categoryName} className="border border-border p-6">
                 <h3 className="mb-5 font-display text-3xl">
-                  {section.title}
+                  {categoryName}
                 </h3>
                 <ul className="space-y-3 text-sm text-muted-foreground">
-                  {section.items.map((item) => (
-                    <li key={item} className="flex gap-3">
+                  {itemsByCategory(websiteMenu, categoryName).map((item) => (
+                    <li key={item.name} className="flex gap-3">
                       <Star className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                      <span>{item}</span>
+                      <span>
+                        {item.name}
+                        {item.description ? ` — ${item.description}` : ""}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -394,14 +408,14 @@ export default function CateringMenuPage() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {lunchBoxes.map((box) => (
+            {(dynamicLunchBoxes.length ? dynamicLunchBoxes : lunchBoxes).map((box) => (
               <div
                 key={box.name}
                 className="border border-border bg-background p-5"
               >
                 <h3 className="font-display text-2xl">{box.name}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {box.detail}
+                  {"detail" in box ? box.detail : box.description}
                 </p>
               </div>
             ))}
@@ -477,95 +491,58 @@ export default function CateringMenuPage() {
           </div>
 
           <div className="space-y-12">
-            {trayPricing.map((group) => (
-              <div key={group.category}>
-                <h3 className="mb-5 font-display text-3xl">{group.category}</h3>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  {group.items.map((item) => (
-                    <div
-                      key={item[0]}
-                      className="min-w-0 border border-border p-5"
-                    >
-                      <h4 className="break-words font-display text-2xl">
-                        {item[0]}
-                      </h4>
-                      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-                        <PricePair
-                          label="Standard"
-                          half={item[1]}
-                          full={item[2]}
-                        />
-                        <PricePair
-                          label="Partner"
-                          half={item[3]}
-                          full={item[4]}
-                          highlight
-                        />
+            {coreCategoryNames.map((categoryName) => {
+              const pricedItems = itemsByCategory(websiteMenu, categoryName).filter(
+                (item) => item.sizes.length,
+              );
+
+              if (!pricedItems.length) {
+                return null;
+              }
+
+              return (
+                <div key={categoryName}>
+                  <h3 className="mb-5 font-display text-3xl">{categoryName}</h3>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {pricedItems.map((item) => (
+                      <div
+                        key={item.name}
+                        className="min-w-0 border border-border p-5"
+                      >
+                        <h4 className="break-words font-display text-2xl">
+                          {item.name}
+                        </h4>
+                        {item.description ? (
+                          <p className="mt-2 text-sm text-muted-foreground">
+                            {item.description}
+                          </p>
+                        ) : null}
+                        <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                          {item.sizes.map((size) => (
+                            <div
+                              key={size.label}
+                              className="border border-border bg-card p-4"
+                            >
+                              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                                {sizeDetail(size)}
+                              </p>
+                              <p className="mt-2 font-medium">
+                                Standard {formatPrice(size.standard_price)}
+                              </p>
+                              {size.partner_price !== null ? (
+                                <p className="mt-1 font-semibold text-accent">
+                                  Partner {formatPrice(size.partner_price)}
+                                </p>
+                              ) : null}
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
-            <div>
-              <h3 className="mb-5 font-display text-3xl">Appetizers</h3>
-              <div className="space-y-3">
-                {smallBites.map((item) => (
-                  <div
-                    key={item[0]}
-                    className="min-w-0 border border-border p-5"
-                  >
-                    <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                      <h4 className="break-words font-display text-2xl">
-                        {item[0]}
-                      </h4>
-                      <p className="text-sm text-muted-foreground">{item[1]}</p>
-                    </div>
-                    <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                      <div className="border border-border bg-card p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                          Standard
-                        </p>
-                        <p className="mt-2 font-medium">{item[2]}</p>
-                      </div>
-                      <div className="border border-border bg-accent/5 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-accent">
-                          Partner
-                        </p>
-                        <p className="mt-2 font-semibold text-accent">
-                          {item[3]}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="mb-5 font-display text-3xl">Dessert Add-Ons</h3>
-              <div className="border border-border">
-                {dessertAddOns.map((item) => (
-                  <div
-                    key={item[0]}
-                    className="grid grid-cols-1 gap-2 border-b border-border p-5 last:border-b-0 sm:grid-cols-[1fr_auto]"
-                  >
-                    <div>
-                      <p className="font-medium">{item[0]}</p>
-                      <p className="mt-1 text-sm text-muted-foreground">
-                        {item[1]}
-                      </p>
-                    </div>
-                    <p className="text-sm font-semibold text-accent">
-                      {item[2]}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
+              );
+            })}
           </div>
 
           <div className="mt-12">
