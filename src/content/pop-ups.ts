@@ -26,6 +26,11 @@ export interface PopUp {
   status: "upcoming" | "sold_out" | "past";
   /** Empty string means the Stripe Payment Link has not been created yet. */
   stripePaymentLinkUrl?: string;
+  /** Multiple preorder options for different sizes/packages. */
+  paymentLinks?: Array<{
+    label: string;
+    url: string;
+  }>;
   /** Path under /public or an imported asset */
   image?: string;
   /** Optional gallery images from the CMS feed. */

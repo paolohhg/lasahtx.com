@@ -62,6 +62,10 @@ type PopUpsFeed = {
       address: string | null;
       name: string | null;
     };
+    paymentLinks?: Array<{
+      label: string | null;
+      url: string | null;
+    }>;
     status: PopUp["status"];
     stripePaymentLinkUrl: string | null;
     title: string;
@@ -87,6 +91,16 @@ function normalizeFeedPopUp(event: NonNullable<PopUpsFeed["popups"]>[number]): P
 
   const image = normalizeImageUrl(event.image);
   const images = (event.images ?? []).map(normalizeImageUrl).filter((value): value is string => Boolean(value));
+  const paymentLinks = (event.paymentLinks ?? [])
+    .map((link, index) => ({
+      label: link.label || `Option ${index + 1}`,
+      url: link.url ?? "",
+    }))
+    .filter((link) => link.url);
+
+  if (!paymentLinks.length && event.stripePaymentLinkUrl) {
+    paymentLinks.push({ label: "Preorder", url: event.stripePaymentLinkUrl });
+  }
 
   return {
     id: event.id,
@@ -100,6 +114,7 @@ function normalizeFeedPopUp(event: NonNullable<PopUpsFeed["popups"]>[number]): P
     },
     status: event.status,
     stripePaymentLinkUrl: event.stripePaymentLinkUrl ?? "",
+    paymentLinks,
     image,
     images: images.length ? images : image ? [image] : [],
   };
@@ -155,7 +170,17 @@ function popUpsSchema(popUps: PopUp[]) {
         address: event.location.address,
       },
       organizer: { "@id": "https://www.lasahtx.com/#business" },
-      offers: event.stripePaymentLinkUrl
+      offers: event.paymentLinks?.length
+        ? event.paymentLinks.map((link) => ({
+            "@type": "Offer",
+            name: link.label,
+            url: link.url,
+            availability:
+              event.status === "sold_out"
+                ? "https://schema.org/SoldOut"
+                : "https://schema.org/InStock",
+          }))
+        : event.stripePaymentLinkUrl
         ? {
             "@type": "Offer",
             url: event.stripePaymentLinkUrl,
@@ -278,7 +303,19 @@ export default async function PopUpsPage() {
                       {event.location.name} · {event.location.address}
                     </p>
                   </div>
-                  {event.stripePaymentLinkUrl ? (
+                  {event.paymentLinks?.length ? (
+                    <div className="mt-8 flex flex-wrap gap-3">
+                      {event.paymentLinks.map((link) => (
+                        <a
+                          key={`${event.id}-${link.label}`}
+                          href={link.url}
+                          className="inline-flex h-12 items-center justify-center bg-accent px-6 text-sm font-semibold uppercase tracking-wide text-accent-foreground transition-colors hover:bg-accent/90"
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  ) : event.stripePaymentLinkUrl ? (
                     <a
                       href={event.stripePaymentLinkUrl}
                       className="mt-8 inline-flex h-12 items-center justify-center bg-accent px-6 text-sm font-semibold uppercase tracking-wide text-accent-foreground transition-colors hover:bg-accent/90"
