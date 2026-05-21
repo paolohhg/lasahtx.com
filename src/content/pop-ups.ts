@@ -28,6 +28,8 @@ export interface PopUp {
   stripePaymentLinkUrl?: string;
   /** Path under /public or an imported asset */
   image?: string;
+  /** Optional gallery images from the CMS feed. */
+  images?: string[];
 }
 
 export const popUps: PopUp[] = [];

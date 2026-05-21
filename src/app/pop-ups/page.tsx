@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CalendarDays, MapPin, Sparkles } from "lucide-react";
-import { popUps } from "@/content/pop-ups";
+import { popUps as fallbackPopUps, type PopUp } from "@/content/pop-ups";
 import { siteUrl } from "@/lib/site";
+
+const popUpsFeedUrl =
+  process.env.HOSPITALITY_OS_POPUPS_FEED_URL ??
+  "https://hospitality-os-core.vercel.app/api/public/popups?brand=lasa-htx";
 
 export const metadata: Metadata = {
   title: {
@@ -46,10 +50,91 @@ function formatEventDate(date: string) {
   }).format(new Date(date));
 }
 
-const popUpsSchema = {
-  "@context": "https://schema.org",
-  "@graph": [
-    ...popUps.map((event) => ({
+type PopUpsFeed = {
+  popups?: Array<{
+    date: string;
+    description: string | null;
+    endDate: string | null;
+    id: string;
+    image: string | null;
+    images?: string[];
+    location: {
+      address: string | null;
+      name: string | null;
+    };
+    status: PopUp["status"];
+    stripePaymentLinkUrl: string | null;
+    title: string;
+  }>;
+};
+
+function normalizeImageUrl(value: string | null | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  if (value.startsWith("http://") || value.startsWith("https://")) {
+    return value;
+  }
+
+  return value.startsWith("/") ? value : `/${value}`;
+}
+
+function normalizeFeedPopUp(event: NonNullable<PopUpsFeed["popups"]>[number]): PopUp | null {
+  if (!event.id || !event.title || !event.date) {
+    return null;
+  }
+
+  const image = normalizeImageUrl(event.image);
+  const images = (event.images ?? []).map(normalizeImageUrl).filter((value): value is string => Boolean(value));
+
+  return {
+    id: event.id,
+    title: event.title,
+    description: event.description ?? "",
+    date: event.date,
+    endDate: event.endDate ?? event.date,
+    location: {
+      name: event.location.name ?? "LASA HTX",
+      address: event.location.address ?? "Houston, TX",
+    },
+    status: event.status,
+    stripePaymentLinkUrl: event.stripePaymentLinkUrl ?? "",
+    image,
+    images: images.length ? images : image ? [image] : [],
+  };
+}
+
+async function getPopUps(): Promise<PopUp[]> {
+  try {
+    const response = await fetch(popUpsFeedUrl, { cache: "no-store" });
+
+    if (!response.ok) {
+      throw new Error(`Pop-ups feed returned ${response.status}`);
+    }
+
+    const feed = (await response.json()) as PopUpsFeed;
+    const events = (feed.popups ?? []).map(normalizeFeedPopUp).filter((event): event is PopUp => Boolean(event));
+
+    return events.length ? events : fallbackPopUps;
+  } catch {
+    return fallbackPopUps;
+  }
+}
+
+function absoluteImageUrl(image: string | undefined) {
+  if (!image) {
+    return undefined;
+  }
+
+  return image.startsWith("http://") || image.startsWith("https://") ? image : `${siteUrl}${image}`;
+}
+
+function popUpsSchema(popUps: PopUp[]) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      ...popUps.map((event) => ({
       "@type": "FoodEvent",
       "@id": `https://www.lasahtx.com/pop-ups#${event.id}`,
       name: event.title,
@@ -61,7 +146,9 @@ const popUpsSchema = {
           ? "https://schema.org/EventCompleted"
           : "https://schema.org/EventScheduled",
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-      image: event.image ? `${siteUrl}${event.image}` : undefined,
+      image: event.images?.length
+        ? event.images.map(absoluteImageUrl)
+        : absoluteImageUrl(event.image),
       location: {
         "@type": "Place",
         name: event.location.name,
@@ -78,27 +165,29 @@ const popUpsSchema = {
                 : "https://schema.org/InStock",
           }
         : undefined,
-    })),
-    {
-      "@type": "CollectionPage",
-      "@id": "https://www.lasahtx.com/pop-ups#page",
-      url: "https://www.lasahtx.com/pop-ups",
-      name: "Lasa HTX Pop-Ups",
-      isPartOf: { "@id": "https://www.lasahtx.com/#website" },
-      mainEntity: {
-        "@type": "ItemList",
-        numberOfItems: popUps.length,
-        itemListElement: popUps.map((event, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          item: { "@id": `https://www.lasahtx.com/pop-ups#${event.id}` },
-        })),
+      })),
+      {
+        "@type": "CollectionPage",
+        "@id": "https://www.lasahtx.com/pop-ups#page",
+        url: "https://www.lasahtx.com/pop-ups",
+        name: "Lasa HTX Pop-Ups",
+        isPartOf: { "@id": "https://www.lasahtx.com/#website" },
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: popUps.length,
+          itemListElement: popUps.map((event, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: { "@id": `https://www.lasahtx.com/pop-ups#${event.id}` },
+          })),
+        },
       },
-    },
-  ],
-};
+    ],
+  };
+}
 
-export default function PopUpsPage() {
+export default async function PopUpsPage() {
+  const popUps = await getPopUps();
   const upcoming = popUps.filter((event) => event.status !== "past");
   const past = popUps.filter((event) => event.status === "past");
 
@@ -107,7 +196,7 @@ export default function PopUpsPage() {
       <script
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(popUpsSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(popUpsSchema(popUps)) }}
       />
 
       <section className="min-h-[72vh] pt-32 pb-20 bg-primary text-primary-foreground flex items-center">
@@ -163,6 +252,14 @@ export default function PopUpsPage() {
                   key={event.id}
                   className="border border-border bg-card p-6 md:p-8"
                 >
+                  {event.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={event.image}
+                      alt=""
+                      className="mb-6 aspect-[4/3] w-full object-cover"
+                    />
+                  ) : null}
                   <div className="flex items-center gap-2 text-accent text-xs font-semibold uppercase tracking-[0.18em] mb-4">
                     <Sparkles className="h-4 w-4" />
                     {event.status === "sold_out" ? "Sold Out" : "Upcoming"}
@@ -188,6 +285,14 @@ export default function PopUpsPage() {
                     >
                       Preorder
                     </a>
+                  ) : null}
+                  {event.images && event.images.length > 1 ? (
+                    <div className="mt-6 grid grid-cols-3 gap-2">
+                      {event.images.slice(1, 4).map((image) => (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img key={image} src={image} alt="" className="aspect-square w-full object-cover" />
+                      ))}
+                    </div>
                   ) : null}
                 </article>
               ))}
@@ -221,6 +326,10 @@ export default function PopUpsPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {past.map((event) => (
                 <article key={event.id} className="border border-border p-6">
+                  {event.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={event.image} alt="" className="mb-5 aspect-[4/3] w-full object-cover" />
+                  ) : null}
                   <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
                     {formatEventDate(event.date)}
                   </p>
