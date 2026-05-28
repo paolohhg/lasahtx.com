@@ -8,13 +8,18 @@ import {
   Truck,
   type LucideIcon,
 } from "lucide-react";
-import cateringBuffet from "@/assets/catering-buffet.jpg";
 import cateringHero from "@/assets/catering-hero-bg.webp";
 import cateringLumpia from "@/assets/catering-lumpia.jpg";
 import cateringTrays from "@/assets/catering-trays.jpg";
 import chefHero from "@/assets/chef-hero.webp";
+import barrioSmoke from "@/assets/concepts/barrio-smoke.jpg";
+import copperTable from "@/assets/concepts/copper-table.jpg";
+import fuelAndFork from "@/assets/concepts/fuel-and-fork.jpg";
+import luckyTigerSocial from "@/assets/concepts/lucky-tiger-social.jpg";
+import olivaHouse from "@/assets/concepts/oliva-house.jpg";
+import rossoSocial from "@/assets/concepts/rosso-social.jpg";
+import softCulture from "@/assets/concepts/soft-culture.jpg";
 import houstonSkyline from "@/assets/houston-skyline-hero.jpg";
-import kitchenHero from "@/assets/kitchen-hero.webp";
 import { FullInquiryForm } from "./_catering/FullInquiryForm";
 
 const metrics = [
@@ -34,43 +39,43 @@ const concepts: Array<{
     name: "Oliva House",
     line: "Modern Mediterranean hospitality.",
     menu: "Shawarma, herb chicken, grilled vegetables, hummus spreads, executive bowls.",
-    image: cateringBuffet,
+    image: olivaHouse,
   },
   {
     name: "Rosso Social",
     line: "Italian-American comfort hospitality.",
     menu: "Pastas, baked dishes, meatballs, salads, and family-style catering.",
-    image: cateringTrays,
+    image: rossoSocial,
   },
   {
     name: "Lucky Tiger Social",
     line: "Modern Asian comfort catering.",
     menu: "Korean beef, garlic noodles, fried rice, bao, satay, and wok-fired dishes.",
-    image: chefHero,
+    image: luckyTigerSocial,
   },
   {
     name: "Barrio Smoke",
     line: "Texas-Latin grilled hospitality.",
     menu: "Fajita spreads, chimichurri steak, tacos, grilled proteins, and street corn.",
-    image: cateringHero,
+    image: barrioSmoke,
   },
   {
     name: "Copper Table",
     line: "Southern-inspired corporate comfort.",
     menu: "Roasted chicken, mashed potatoes, mac and cheese, sliders, and BBQ formats.",
-    image: kitchenHero,
+    image: copperTable,
   },
   {
     name: "Soft Culture",
     line: "Trend-forward desserts and sweets.",
     menu: "Ube desserts, butter mochi, soft serve, dessert boxes, and seasonal sweets.",
-    image: cateringLumpia,
+    image: softCulture,
   },
   {
     name: "Fuel & Fork",
     line: "Chef-driven premium meal prep.",
     menu: "High-protein meals, health-forward bowls, and packaged recurring programs.",
-    image: cateringBuffet,
+    image: fuelAndFork,
   },
   {
     name: "LASA HTX",
