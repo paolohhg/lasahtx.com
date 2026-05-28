@@ -3,10 +3,11 @@ import Link from "next/link";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/catering", label: "Catering" },
-  { href: "/catering-menu", label: "Catering Menu" },
+  { href: "/#concepts", label: "Concepts" },
+  { href: "/catering-menu", label: "Menus" },
   { href: "/corporate-catering-faq", label: "Catering FAQ" },
   { href: "/meal-prep", label: "Meal Prep" },
-  { href: "/pop-ups", label: "Pop-Ups" },
+  { href: "/pop-ups", label: "Experiences" },
   { href: "/about", label: "About" },
 ];
 
@@ -17,12 +18,12 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
             <h3 className="font-display text-3xl tracking-widest mb-4">
-              LASA HTX
+              LASA Hospitality
             </h3>
             <p className="text-primary-foreground/60 text-sm leading-relaxed">
-              Modern Asian Hospitality.
+              Modern Hospitality Built for Houston.
               <br />
-              Built for Houston. Inspired by Asia.
+              Multiple cuisine concepts. Professional execution.
             </p>
           </div>
           <div>
@@ -72,16 +73,18 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-primary-foreground/10 mt-12 pt-10 mb-8">
-          <p className="text-xs font-display tracking-widest text-primary-foreground/60 mb-3">
-            WHAT IS LASA?
-          </p>
-          <p className="text-xs text-primary-foreground/60 leading-relaxed max-w-md">
-            LASA is a Filipino word that means &quot;taste&quot; or
-            &quot;flavor.&quot; It represents bold, honest food rooted in
-            culture and built with intention.
-          </p>
-          <p className="text-xs text-primary-foreground/60 leading-relaxed mt-3">
-            Modern Asian Hospitality. Built for Houston. Inspired by Asia.
+            <p className="text-xs font-display tracking-widest text-primary-foreground/60 mb-3">
+              WHAT IS LASA?
+            </p>
+            <p className="text-xs text-primary-foreground/60 leading-relaxed max-w-md">
+              LASA is a Filipino word that means &quot;taste&quot; or
+              &quot;flavor.&quot; Today it anchors a Houston hospitality
+              platform built for multi-cuisine catering, chef-driven
+              experiences, and scalable execution.
+            </p>
+            <p className="text-xs text-primary-foreground/60 leading-relaxed mt-3">
+            One catering partner. Multiple cuisine concepts. Professional
+            execution.
           </p>
         </div>
         <div className="border-t border-primary-foreground/10 pt-8 text-center">

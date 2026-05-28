@@ -23,40 +23,46 @@ const bebasNeue = Bebas_Neue({
 });
 
 const description =
-  "Filipino-rooted modern Asian catering, pop-ups, and chef-driven meal prep. Built for Houston. Inspired by Asia.";
+  "LASA Hospitality is a Houston-based multi-concept catering and hospitality platform built for corporate catering, chef-driven experiences, and scalable food systems.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Lasa HTX — Modern Asian Hospitality for Houston",
-    template: "%s — Lasa HTX",
+    default: "LASA Hospitality — Modern Hospitality Built for Houston",
+    template: "%s — LASA Hospitality",
   },
   description,
   keywords: [
-    "Filipino catering Houston",
-    "Asian catering Houston",
+    "LASA Hospitality",
+    "multi concept catering Houston",
     "corporate catering Houston",
-    "meal prep Houston",
-    "catering Montrose",
-    "catering Heights",
-    "catering Galleria",
+    "office catering Houston",
+    "executive lunch catering Houston",
+    "boxed lunch catering Houston",
+    "event catering Houston",
+    "hospitality experiences Houston",
+    "Mediterranean catering Houston",
+    "Italian catering Houston",
+    "Asian catering Houston",
+    "Latin catering Houston",
+    "Southern catering Houston",
+    "Filipino catering Houston",
     "catering The Woodlands",
-    "Filipino food Houston",
-    "pop-up dinner Houston",
+    "catering Energy Corridor",
   ],
   authors: [{ name: "Paolo Nucum" }],
-  creator: "Lasa HTX",
+  creator: "LASA Hospitality",
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Lasa HTX",
-    title: "Lasa HTX — Modern Asian Hospitality for Houston",
+    siteName: "LASA Hospitality",
+    title: "LASA Hospitality — Modern Hospitality Built for Houston",
     description,
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lasa HTX — Modern Asian Hospitality for Houston",
+    title: "LASA Hospitality — Modern Hospitality Built for Houston",
     description,
   },
   alternates: {
@@ -70,7 +76,8 @@ const globalSchema = {
     {
       "@type": "Organization",
       "@id": "https://www.lasahtx.com/#organization",
-      name: "LASA HTX",
+      name: "LASA Hospitality",
+      alternateName: "LASA HTX",
       url: "https://www.lasahtx.com/",
       sameAs: [
         "https://www.instagram.com/lasahtx",
@@ -90,9 +97,18 @@ const globalSchema = {
     {
       "@type": ["Restaurant", "Caterer"],
       "@id": "https://www.lasahtx.com/#business",
-      name: "LASA HTX",
+      name: "LASA Hospitality",
       url: "https://www.lasahtx.com/",
-      servesCuisine: ["Filipino", "Modern Asian", "Asian Fusion"],
+      servesCuisine: [
+        "Mediterranean",
+        "Italian-American",
+        "Modern Asian",
+        "Texas-Latin",
+        "Southern",
+        "Filipino",
+        "Dessert",
+        "Meal Prep",
+      ],
       priceRange: "$$",
       telephone: "+1-832-510-8440",
       email: "catering@lasahtx.com",
@@ -129,7 +145,7 @@ const globalSchema = {
       "@type": "WebSite",
       "@id": "https://www.lasahtx.com/#website",
       url: "https://www.lasahtx.com/",
-      name: "LASA HTX",
+      name: "LASA Hospitality",
       publisher: { "@id": "https://www.lasahtx.com/#organization" },
     },
   ],
@@ -148,7 +164,6 @@ export default function RootLayout({
       <body>
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(globalSchema) }}
         />
         <TooltipProvider>

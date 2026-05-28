@@ -12,9 +12,9 @@ import { CartDrawerTrigger } from "@/app/_cart/CartDrawerTrigger";
 const links = [
   { href: "/", label: "Home" },
   { href: "/catering", label: "Catering" },
-  { href: "/catering-menu", label: "Menu" },
+  { href: "/#concepts", label: "Concepts" },
   { href: "/meal-prep", label: "Meal Prep" },
-  { href: "/pop-ups", label: "Pop-Ups" },
+  { href: "/pop-ups", label: "Experiences" },
   { href: "/about", label: "About" },
 ];
 
@@ -35,7 +35,7 @@ export function Navbar() {
             className="h-10 w-auto"
             priority
           />
-          LASA HTX
+          LASA
         </Link>
 
         <div className="flex items-center gap-4">
