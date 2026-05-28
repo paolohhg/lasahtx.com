@@ -14,11 +14,14 @@ const fadeUp = {
 
 const rows = [
   {
-    label: "Delivered",
-    value: "Multiple half trays, 100 lumpia, labeled dietary trays",
+    label: "Scope",
+    value: "Executive lunch, training meal, and reception-style add-ons",
   },
-  { label: "Setup Time", value: "15 Minutes" },
-  { label: "Result", value: "Client rebooked within 30 days" },
+  { label: "Menu", value: "Mediterranean, Asian comfort, and LASA signatures" },
+  {
+    label: "Execution",
+    value: "Labeled trays, setup notes, delivery window, and service-ready staging",
+  },
 ];
 
 export function CaseStudy() {
@@ -32,7 +35,7 @@ export function CaseStudy() {
           viewport={{ once: true }}
           className="font-display text-4xl md:text-5xl lg:text-6xl mb-14 text-center"
         >
-          Corporate Execution Example
+          Modular Catering Example
         </motion.h2>
 
         <motion.div
@@ -49,7 +52,7 @@ export function CaseStudy() {
                 Event Brief
               </p>
               <h3 className="font-display text-3xl md:text-4xl mb-6">
-                Leadership Summit — 85 Guests
+                Corporate Training Day — 150 Guests
               </h3>
               <div className="space-y-3">
                 {rows.map((row) => (
@@ -66,23 +69,23 @@ export function CaseStudy() {
             </div>
             <div className="md:w-64 flex flex-col gap-4">
               <div className="border border-border bg-card p-5 text-center">
-                <p className="font-display text-5xl text-accent">85</p>
+                <p className="font-display text-5xl text-accent">150</p>
                 <p className="text-muted-foreground text-xs font-sans mt-1 tracking-wide">
                   Guests Served
                 </p>
               </div>
               <div className="border border-border bg-card p-5 text-center">
                 <p className="font-display text-5xl text-accent">
-                  15<span className="text-2xl">min</span>
+                  3<span className="text-2xl">x</span>
                 </p>
                 <p className="text-muted-foreground text-xs font-sans mt-1 tracking-wide">
-                  Full Setup Time
+                  Cuisine Directions
                 </p>
               </div>
               <div className="border border-accent/40 bg-accent/10 p-5 text-center">
                 <Check className="h-6 w-6 text-accent mx-auto mb-1" />
                 <p className="text-foreground text-xs font-sans font-semibold tracking-wide">
-                  Rebooked in 30 Days
+                  One Coordinated Operation
                 </p>
               </div>
             </div>

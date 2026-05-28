@@ -23,7 +23,7 @@ export function FinalCTA() {
           viewport={{ once: true }}
           className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-8"
         >
-          Let&apos;s Feed the Room.
+          Build Your Catering Program.
         </motion.h2>
         <motion.div
           variants={fadeUp}
@@ -37,7 +37,7 @@ export function FinalCTA() {
             onClick={scrollToInquiryForm}
             className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-accent-foreground font-sans font-semibold tracking-wide px-10 py-6 text-sm transition-colors"
           >
-            Request Corporate Catering Proposal
+            Request a Catering Proposal
           </button>
           <a
             href="tel:+18325108440"

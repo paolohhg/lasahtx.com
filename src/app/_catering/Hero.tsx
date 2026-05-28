@@ -43,7 +43,7 @@ export function Hero() {
               custom={0}
               className="text-accent font-sans text-xs tracking-[0.2em] uppercase font-semibold mb-4"
             >
-              Modern Asian Hospitality · Greater Houston Corporate Catering
+              Houston Multi-Concept Catering
             </motion.p>
 
             <motion.h1
@@ -53,8 +53,7 @@ export function Hero() {
               custom={1}
               className="font-display text-5xl sm:text-6xl md:text-7xl leading-[1.0] mb-6"
             >
-              Houston Corporate Catering for 25–500+ Guests — On Time.
-              Organized. Elevated.
+              Chef-Driven Catering Built for Houston Teams &amp; Events
             </motion.h1>
 
             <motion.p
@@ -64,8 +63,8 @@ export function Hero() {
               custom={2}
               className="text-muted-foreground text-base md:text-lg leading-relaxed mb-6 max-w-xl"
             >
-              Chef-led Filipino-rooted Asian catering built for offices,
-              conferences, leadership summits, and high-volume events.
+              Multi-cuisine catering collections powered by one centralized
+              hospitality operation.
             </motion.p>
 
             <motion.div
@@ -76,9 +75,9 @@ export function Hero() {
               className="flex flex-col gap-2 mb-6"
             >
               {[
-                "Chef-led execution with 30 years of hospitality experience",
-                "Structured logistics for 25–500+ guest corporate events",
-                "Professional communication, delivery & on-time setup",
+                "Mediterranean, Italian-American, Asian, Texas-Latin, Southern, and LASA HTX signature collections",
+                "Recurring office catering, executive lunches, trainings, private events, and staffed hospitality",
+                "Centralized production, logistics, communication, delivery, setup, and scalable execution",
               ].map((bullet) => (
                 <div
                   key={bullet}
@@ -98,7 +97,7 @@ export function Hero() {
               className="text-muted-foreground text-xs font-sans tracking-wide mb-8"
             >
               Serving Houston, The Woodlands, Magnolia, Conroe, Spring &amp;
-              Greater Houston Area.
+              the Greater Houston area.
             </motion.p>
 
             <motion.div
@@ -135,20 +134,13 @@ export function Hero() {
                 onClick={scrollToInquiryForm}
                 className="inline-flex items-center justify-center bg-accent hover:bg-accent/90 text-accent-foreground font-sans font-semibold tracking-wide px-8 py-6 text-sm transition-colors"
               >
-                Request Corporate Catering Proposal
+                Request a Catering Proposal
               </button>
-              <a
-                href="/menus/lasa-htx-catering-menu.pdf"
-                download
-                className="inline-flex items-center justify-center border border-border bg-transparent text-foreground hover:bg-foreground/5 font-sans tracking-wide px-8 py-[1.375rem] text-sm transition-colors"
-              >
-                Download Menu
-              </a>
               <Link
-                href="/catering-menu"
+                href="/#concepts"
                 className="inline-flex items-center justify-center border border-border bg-transparent text-foreground hover:bg-foreground/5 font-sans tracking-wide px-8 py-[1.375rem] text-sm transition-colors"
               >
-                View Full Menu
+                Explore Concepts
               </Link>
             </motion.div>
           </div>
@@ -162,11 +154,12 @@ export function Hero() {
             className="bg-card/90 backdrop-blur border border-border p-6 md:p-8"
           >
             <p className="text-accent font-sans text-xs tracking-[0.18em] uppercase font-semibold mb-2">
-              Quick Quote
+              Start an Inquiry
             </p>
-            <h2 className="font-display text-3xl mb-1">Request Catering Quote</h2>
+            <h2 className="font-display text-3xl mb-1">Request Catering Proposal</h2>
             <p className="text-muted-foreground text-xs font-sans mb-6">
-              We respond within 24 hours.
+              Tell us the guest count, event type, and cuisine direction. We
+              respond with the right next step.
             </p>
             <QuickQuoteForm />
           </motion.div>

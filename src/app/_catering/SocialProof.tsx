@@ -21,9 +21,9 @@ const fadeUp = {
 
 const stats = [
   { icon: Users, stat: "25–500+", label: "Guest Capacity" },
-  { icon: CalendarCheck, stat: "24hr", label: "Response Guarantee" },
-  { icon: TrendingUp, stat: "100%", label: "On-Time Performance" },
-  { icon: ShieldCheck, stat: "Licensed", label: "& Commercially Insured" },
+  { icon: CalendarCheck, stat: "6", label: "Cuisine Collections" },
+  { icon: TrendingUp, stat: "1", label: "Operating Standard" },
+  { icon: ShieldCheck, stat: "Built", label: "For Professional Events" },
 ];
 
 const testimonials = [
@@ -41,7 +41,7 @@ const testimonials = [
   },
   {
     quote:
-      "We've tried a lot of caterers for our leadership summits. LASA is the only one we've rebooked. The systems, the presentation — everything was on point.",
+      "We've tried a lot of caterers for our leadership summits. LASA is the only one we've rebooked. The systems, the menu flexibility, the presentation — everything was on point.",
     author: "Event Coordinator",
     company: "Greater Houston Healthcare Group",
   },
@@ -68,8 +68,8 @@ export function SocialProof() {
           custom={1}
           className="text-center text-muted-foreground text-sm tracking-wide mb-14"
         >
-          Serving corporate teams across Greater Houston — offices, conferences,
-          medical &amp; pharma, summits.
+          Serving corporate teams across Greater Houston with menu flexibility,
+          professional communication, and event-ready execution.
         </motion.p>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">

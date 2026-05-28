@@ -13,19 +13,19 @@ const fadeUp = {
 
 const problems = [
   {
-    problem: "\u201CWe\u2019ve been burned by late catering.\u201D",
+    problem: "\u201CWe need variety without managing six caterers.\u201D",
     solution:
-      "Clear confirmations, structured production timelines, and reliable delivery windows — every time.",
+      "LASA gives your team multiple cuisine directions through one operating partner, one proposal, and one execution standard.",
   },
   {
-    problem: "\u201CWe have dietary restrictions.\u201D",
+    problem: "\u201CWe need this to feel professional, not improvised.\u201D",
     solution:
-      "Clearly labeled trays. Separate packaging when required. Structured counts for accuracy.",
+      "Centralized production planning, setup notes, labeled menus, delivery windows, and communication keep the event controlled.",
   },
   {
-    problem: "\u201CWe need food that impresses, not just feeds.\u201D",
+    problem: "\u201CWe need food that works for executives and big teams.\u201D",
     solution:
-      "Chef-driven Filipino-rooted Asian flavors executed at scale with professional presentation.",
+      "From executive lunches to 500+ guest programs, menus are built around presentation, quantity planning, dietary clarity, and service flow.",
   },
 ];
 
@@ -40,7 +40,7 @@ export function ProblemSolution() {
           viewport={{ once: true }}
           className="font-display text-4xl md:text-5xl lg:text-6xl mb-4 text-center"
         >
-          Your Catering Shouldn&apos;t Be the Stress Point.
+          Your Catering Partner Should Make the Room Easier to Manage.
         </motion.h2>
         <motion.p
           variants={fadeUp}
@@ -50,8 +50,9 @@ export function ProblemSolution() {
           custom={1}
           className="text-center text-muted-foreground mb-16 text-sm tracking-wide"
         >
-          We built LASA around eliminating every friction point that makes
-          corporate catering unreliable.
+          The value is not only what cuisine you choose. It is knowing the
+          planning, food, delivery, setup, and guest experience are handled by
+          one mature hospitality operation.
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

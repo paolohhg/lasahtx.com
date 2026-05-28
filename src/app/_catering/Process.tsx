@@ -16,20 +16,20 @@ const steps = [
   {
     icon: CalendarCheck,
     step: "01",
-    title: "Confirm Guest Count & Event Scope",
-    body: "We gather event size, dietary needs, timeline, and service expectations. No guesswork — every detail documented before production begins.",
+    title: "Define Event Scope",
+    body: "We document guest count, event type, schedule, location, budget range, dietary needs, staffing expectations, and setup requirements.",
   },
   {
     icon: BarChart3,
     step: "02",
-    title: "Menu Engineering & Logistics Planning",
-    body: "We structure tray quantities, service flow, delivery timing, and setup requirements to ensure smooth execution from kitchen to your venue.",
+    title: "Select Cuisine Collections",
+    body: "Choose one LASA concept or combine several into a modular menu. We engineer quantities, packaging, service flow, and production timing.",
   },
   {
     icon: Zap,
     step: "03",
-    title: "Delivery, Setup & On-Site Execution",
-    body: "Our team delivers on time, sets up professionally, and ensures your event runs seamlessly — so you can focus on your guests.",
+    title: "Produce, Deliver & Execute",
+    body: "Centralized production, coordinated logistics, labeled menus, professional setup, and event-day communication keep the experience controlled.",
   },
 ];
 
@@ -44,7 +44,7 @@ export function Process() {
           viewport={{ once: true }}
           className="font-display text-4xl md:text-5xl lg:text-6xl mb-4 text-center"
         >
-          How We Execute Corporate Events
+          How LASA Executes Catering
         </motion.h2>
         <motion.p
           variants={fadeUp}
@@ -54,8 +54,7 @@ export function Process() {
           custom={1}
           className="text-center text-muted-foreground mb-16 text-sm tracking-wide max-w-2xl mx-auto"
         >
-          Our process is built around one goal: seamless execution that
-          reflects well on your organization.
+          The menu can change. The operating standard should not.
         </motion.p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

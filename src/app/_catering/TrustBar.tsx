@@ -7,11 +7,11 @@ import {
 } from "lucide-react";
 
 const trustItems = [
-  { icon: ShieldCheck, label: "Licensed & Insured" },
-  { icon: Factory, label: "Commercial Production Kitchen" },
-  { icon: BarChart3, label: "Structured High-Volume Systems" },
-  { icon: Clock, label: "24-Hour Response Guarantee" },
-  { icon: MapPin, label: "Serving Greater Houston Area" },
+  { icon: ShieldCheck, label: "Professional Catering Execution" },
+  { icon: Factory, label: "Centralized Production" },
+  { icon: BarChart3, label: "Multi-Concept Menu Planning" },
+  { icon: Clock, label: "Recurring & One-Time Programs" },
+  { icon: MapPin, label: "Serving Greater Houston" },
 ];
 
 export function TrustBar() {

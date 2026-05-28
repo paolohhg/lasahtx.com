@@ -14,18 +14,18 @@ const fadeUp = {
 const tiers = [
   {
     range: "25–100 guests",
-    est: "from $450",
-    note: "Office lunches, team meetings",
+    est: "Program-based",
+    note: "Office lunches, executive meals, private events",
   },
   {
     range: "100–250 guests",
-    est: "from $1,800",
-    note: "Conferences, summits, training days",
+    est: "Custom proposal",
+    note: "Trainings, conferences, hybrid cuisine menus",
   },
   {
     range: "250–500+ guests",
     est: "Custom proposal",
-    note: "Large-scale corporate events",
+    note: "Large-scale events, staffed service, multi-zone setups",
   },
 ];
 
@@ -40,7 +40,7 @@ export function Pricing() {
           viewport={{ once: true }}
           className="font-display text-4xl md:text-5xl lg:text-6xl mb-6 text-center"
         >
-          Corporate Event Investment
+          Built Around the Scope, Not a Static Menu.
         </motion.h2>
 
         <motion.div
@@ -52,16 +52,16 @@ export function Pricing() {
           className="border border-accent/30 bg-accent/5 p-8 md:p-12 text-center mb-10"
         >
           <p className="font-display text-6xl md:text-7xl text-accent mb-4">
-            $18–$32
+            25–500+
           </p>
           <p className="text-foreground font-sans text-lg font-semibold mb-4">
-            per guest
+            guest programs
           </p>
           <p className="text-muted-foreground font-sans text-sm leading-relaxed max-w-2xl mx-auto">
-            Most corporate catering events range from $18–$32 per guest
-            depending on menu structure, service needs, and guest count. We
-            structure proposals clearly and transparently so your team can
-            approve quickly and confidently.
+            Every proposal is structured around guest count, cuisine
+            collections, packaging format, staffing, delivery/setup needs, and
+            timeline. Your team gets a clear plan instead of a generic menu
+            dump.
           </p>
         </motion.div>
 

@@ -21,24 +21,24 @@ const fadeUp = {
 
 const faqPreviewItems = [
   {
-    q: "What areas do you deliver catering to?",
-    a: "LASA HTX serves Houston, The Woodlands, Spring, Conroe, Tomball, Magnolia, and the Energy Corridor.",
+    q: "What areas do you serve?",
+    a: "LASA Hospitality serves Houston, The Woodlands, Spring, Conroe, Tomball, Magnolia, the Energy Corridor, and the Greater Houston area.",
   },
   {
-    q: "What size groups do you cater?",
-    a: "We cater events from 25 to 500+ guests.",
+    q: "What size groups do you support?",
+    a: "We build catering programs for teams and events from 25 to 500+ guests, depending on menu format, service level, and timeline.",
   },
   {
-    q: "What is the average price per person?",
-    a: "Corporate catering ranges from $15–$25 per person depending on menu selection, guest count, and service level.",
+    q: "Can we mix cuisines?",
+    a: "Yes. LASA is built as a multi-concept platform, so your proposal can combine Mediterranean, Italian-American, Asian comfort, Texas-Latin, Southern, and LASA HTX signature items.",
   },
   {
-    q: "Do you offer boxed lunches?",
-    a: "Yes, we offer structured boxed lunch programs for corporate offices. Each box is individually packaged and clearly labeled.",
+    q: "Do you offer recurring office catering?",
+    a: "Yes. We support one-time events and recurring office programs with menu rotation, packaged meals, buffet setups, and clear production planning.",
   },
   {
-    q: "How far in advance should we book?",
-    a: "For 25–75 guests, 48–72 hours is typically sufficient. Larger events may require 5–7 days notice.",
+    q: "Can you provide staffed events?",
+    a: "Yes. Depending on event scope, LASA can support delivery, setup, staffed service, hospitality experiences, and event-day coordination.",
   },
   {
     q: "Can you accommodate dietary restrictions?",
@@ -67,8 +67,8 @@ export function FAQPreview() {
           custom={1}
           className="text-center text-muted-foreground text-sm tracking-wide mb-12"
         >
-          Quick answers to common questions about our corporate catering
-          services.
+          Quick answers about multi-concept catering, office programs, and
+          professional event execution.
         </motion.p>
 
         <motion.div
