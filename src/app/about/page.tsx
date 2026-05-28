@@ -7,29 +7,32 @@ import { AboutStandard } from "../_about/AboutStandard";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "About Lasa HTX — Paolo Nucum, Founder & Culinary Director",
+    absolute: "About LASA Hospitality — Built from Hospitality, Designed for Scale",
   },
   description:
-    "Founded by Paolo Nucum — 30+ years in high-volume hospitality across New York, Las Vegas, and Houston. Filipino-rooted modern Asian catering built on structure, discipline, and guest experience.",
+    "LASA Hospitality is a Houston-based multi-concept catering and hospitality company built for chef-driven food, scalable systems, and professional execution.",
   keywords: [
+    "LASA Hospitality",
+    "Houston hospitality company",
+    "multi-concept catering Houston",
+    "corporate catering Houston",
+    "chef-driven catering Houston",
     "Paolo Nucum",
     "Lasa HTX founder",
-    "Filipino chef Houston",
-    "Houston catering chef",
-    "Modern Asian catering Houston",
+    "Filipino catering Houston",
   ],
   openGraph: {
-    title: "About Lasa HTX — Paolo Nucum, Founder & Culinary Director",
+    title: "About LASA Hospitality — Built from Hospitality, Designed for Scale",
     description:
-      "Filipino-rooted modern Asian catering, built on 30+ years of hospitality experience.",
+      "A Houston-based multi-concept catering and hospitality company built around cultural roots, modular culinary brands, and scalable execution.",
     url: "/about",
-    type: "profile",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Lasa HTX — Paolo Nucum, Founder & Culinary Director",
+    title: "About LASA Hospitality — Built from Hospitality, Designed for Scale",
     description:
-      "Filipino-rooted modern Asian catering, built on 30+ years of hospitality experience.",
+      "Modern hospitality built for Houston: multi-cuisine catering, chef-driven experiences, and scalable food systems.",
   },
   alternates: {
     canonical: "/about",
@@ -46,12 +49,13 @@ const aboutSchema = {
       jobTitle: "Founder & Culinary Director",
       worksFor: { "@id": "https://www.lasahtx.com/#organization" },
       description:
-        "30+ years in high-volume hospitality across New York, Las Vegas, and Houston. Filipino-rooted, culinarily diverse, service-obsessed.",
+        "Founder of LASA Hospitality, a Houston-based multi-concept catering and hospitality company built on service standards, cultural roots, and scalable operations.",
       knowsAbout: [
         "Filipino cuisine",
-        "Modern Asian cuisine",
+        "Multi-cuisine catering",
         "Catering operations",
         "Hospitality management",
+        "Food systems",
       ],
     },
     {
@@ -70,7 +74,6 @@ export default function AboutPage() {
     <main className="bg-primary text-primary-foreground">
       <script
         type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
       <AboutHero />

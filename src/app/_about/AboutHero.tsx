@@ -7,7 +7,7 @@ export function AboutHero() {
     <section className="relative w-full aspect-[16/9] md:aspect-[16/9] min-h-[600px] md:min-h-[700px] overflow-hidden">
       <Image
         src={chefHero}
-        alt="Chef Paolo Nucum preparing catering trays in a professional kitchen"
+        alt="LASA Hospitality preparing chef-driven catering in a professional kitchen"
         fill
         priority
         sizes="100vw"
@@ -19,32 +19,35 @@ export function AboutHero() {
         <div className="container mx-auto max-w-5xl px-6 md:px-8 py-32 md:py-0">
           <div className="max-w-2xl text-left md:text-left text-center">
             <p className="text-accent text-xs tracking-[0.4em] uppercase mb-6 font-sans">
-              About LASA HTX
+              About LASA Hospitality
             </p>
             <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-wider text-primary-foreground mb-6 leading-[1.05]">
-              BUILT IN HOUSTON.
+              BUILT FROM HOSPITALITY.
               <br />
-              INSPIRED BY ASIA.
+              DESIGNED FOR SCALE.
             </h1>
             <p className="text-primary-foreground/80 text-lg md:text-xl font-sans leading-relaxed mb-3 max-w-xl">
-              Chef-led Filipino-rooted modern Asian catering for 25–500+ guests.
+              LASA Hospitality is a Houston-based multi-concept catering and
+              hospitality company built to serve modern teams, events, and
+              communities through chef-driven food, scalable systems, and
+              professional execution.
             </p>
             <p className="text-primary-foreground/60 text-sm md:text-base font-sans tracking-widest uppercase mb-10">
-              Structured. Consistent. Executed with intention.
+              Modern hospitality built for Houston.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/catering"
                 className="inline-block bg-accent text-accent-foreground hover:bg-accent/90 text-sm tracking-[0.15em] uppercase font-sans px-8 py-4 transition-colors duration-300 text-center"
               >
-                Request a Corporate Catering Quote
+                Start a Catering Inquiry
               </Link>
-              <a
-                href="tel:8325108440"
+              <Link
+                href="/#concepts"
                 className="inline-block border border-primary-foreground/40 text-primary-foreground/80 hover:border-primary-foreground hover:text-primary-foreground text-sm tracking-[0.15em] uppercase font-sans px-8 py-4 transition-colors duration-300 text-center"
               >
-                Call 832-510-8440
-              </a>
+                Explore Our Concepts
+              </Link>
             </div>
           </div>
         </div>

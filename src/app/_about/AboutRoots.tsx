@@ -16,9 +16,9 @@ export function AboutRoots() {
           {...fadeUp}
           className="font-display text-4xl md:text-6xl tracking-widest text-primary-foreground mb-12"
         >
-          FILIPINO ROOTS.
+          CULTURAL ROOTS.
           <br />
-          ASIAN RANGE.
+          MULTI-CUISINE RANGE.
         </motion.h2>
 
         <div className="space-y-6 font-sans">
@@ -27,51 +27,52 @@ export function AboutRoots() {
             transition={{ delay: 0.1 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            LASA HTX is rooted in Filipino culinary tradition — bold adobo,
-            comforting sinigang, rich kare-kare, and the communal spirit of
-            shared dining.
+            Paolo&apos;s Filipino roots remain part of the heart of LASA. Dishes
+            like lumpia, adobo, pancit, garlic rice, and ube desserts carry the
+            memory and flavor that started the brand.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.15 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            But it doesn&apos;t stop there.
+            But Filipino food is the signature layer — not the limitation.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.2 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            Houston is one of the most diverse food cities in the country. LASA
-            exists to reflect that diversity — bringing Filipino heritage
-            together with a broader range of Asian flavors in one cohesive,
-            elevated hospitality experience.
+            Today, LASA has evolved beyond a single-cuisine catering concept.
+            It operates as a modern hospitality platform with multiple culinary
+            directions, from Asian-inspired menus and Filipino signatures to
+            Mediterranean, Italian-American, Texas-Latin, Southern comfort,
+            desserts, meal prep, and event experiences.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.25 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            From Southeast Asian influences to East Asian technique, LASA HTX
-            delivers bold, layered cuisine designed for modern gatherings,
-            corporate catering, and large-scale execution.
+            Houston is one of the most diverse food cities in the country. LASA
+            exists to serve that reality with cultural grounding, menu
+            flexibility, and the operational standards required for modern
+            corporate catering and hospitality.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.3 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            Built for professional environments. Designed for memorable
-            experiences.
+            The larger purpose is simple: bring modern, reliable, chef-driven
+            hospitality to Houston at scale.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.35 }}
             className="text-primary-foreground font-medium text-lg pt-2"
           >
-            This is Filipino at the core — Asian in range — corporate in
-            execution.
+            Rooted in flavor. Built for range. Executed with discipline.
           </motion.p>
         </div>
       </div>

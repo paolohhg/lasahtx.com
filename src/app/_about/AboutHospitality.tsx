@@ -16,7 +16,9 @@ export function AboutHospitality() {
           {...fadeUp}
           className="font-display text-4xl md:text-6xl tracking-widest text-primary-foreground mb-12"
         >
-          MODERN HOSPITALITY
+          ONE OPERATING SYSTEM.
+          <br />
+          MANY CULINARY DIRECTIONS.
         </motion.h2>
 
         <div className="space-y-6 font-sans">
@@ -25,9 +27,9 @@ export function AboutHospitality() {
             transition={{ delay: 0.1 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            LASA HTX blends Filipino heritage, Asian culinary range, New York
-            intensity, and Vegas-level hospitality into a structured operation
-            built for scale.
+            LASA is built on one centralized operating system: shared
+            production, logistics, staffing, CRM, menu planning, and hospitality
+            standards.
           </motion.p>
           <motion.div
             {...fadeUp}
@@ -35,10 +37,13 @@ export function AboutHospitality() {
             className="border-l-2 border-accent pl-6 space-y-2"
           >
             <p className="text-primary-foreground font-medium text-lg">
-              We are not a food truck.
+              Not one chef.
             </p>
             <p className="text-primary-foreground font-medium text-lg">
-              We are not a pop-up-only concept.
+              Not one cuisine.
+            </p>
+            <p className="text-primary-foreground font-medium text-lg">
+              Not one catering menu.
             </p>
           </motion.div>
           <motion.p
@@ -46,18 +51,21 @@ export function AboutHospitality() {
             transition={{ delay: 0.3 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            LASA HTX is a full-service hospitality brand designed for execution
-            — from intimate chef&apos;s table experiences to 500+ guest
-            catering programs across Houston.
+            The platform allows LASA to offer clients variety without
+            sacrificing consistency. A corporate team can move from
+            Mediterranean bowls to Italian-American comfort, Texas-Latin
+            spreads, modern Asian menus, Southern corporate comfort, dessert
+            programs, and meal prep without starting from scratch each time.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.35 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            From small gatherings to corporate events and large-scale
-            celebrations, every detail reflects discipline, precision, and
-            respect for the guest experience.
+            Behind the food is the part clients should feel even when they
+            never see it: planning, production, communication, staffing,
+            delivery, setup, and the standards that make hospitality feel calm
+            when the event is complex.
           </motion.p>
         </div>
       </div>

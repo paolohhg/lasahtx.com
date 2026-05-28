@@ -18,11 +18,11 @@ export function AboutFounder() {
           {...fadeUp}
           className="font-display text-3xl md:text-5xl tracking-widest text-primary-foreground mb-12 leading-tight"
         >
-          BUILT IN NEW YORK.
+          THE FOUNDATION
           <br />
-          REFINED IN LAS VEGAS.
+          BEHIND THE
           <br />
-          ROOTED IN HOUSTON.
+          OPERATING STANDARD.
         </motion.h2>
 
         <div className="space-y-6 font-sans mb-16">
@@ -31,54 +31,54 @@ export function AboutFounder() {
             transition={{ delay: 0.1 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            Paolo grew up in New York, learning hospitality from the ground up —
-            clearing tables, observing service flow, and understanding how
-            serious kitchens operate. The pace, pressure, and discipline of New
-            York shaped his work ethic early.
+            Paolo Nucum&apos;s hospitality career began on the floor — learning
+            service, timing, urgency, and guest care before ever building a
+            brand of his own.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.15 }}
             className="text-primary-foreground font-medium text-lg"
           >
-            Las Vegas sharpened a different edge.
+            That foundation shaped LASA&apos;s operating philosophy: food matters,
+            but execution matters just as much.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.2 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            For over a decade, Paolo worked in high-volume nightlife — serving
-            VIP guests, managing expectations, and delivering top-tier service
-            in some of the most fast-paced hospitality environments in the
-            country. Precision, timing, and experience control were everything.
-            When people expect a flawless night, there&apos;s no room for
-            hesitation.
+            New York taught pace and pressure. Las Vegas sharpened precision,
+            expectation management, and the discipline required in high-volume
+            hospitality environments where timing and guest experience cannot
+            break down.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.25 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            Along the way, he also served in casino restaurants and local
-            establishments — from overnight shifts at Denny&apos;s to TGI
-            Fridays and a family-run breakfast spot — gaining perspective on
-            both corporate systems and small-business grit.
+            Along the way, Paolo worked across casino restaurants, local
+            establishments, corporate systems, and independent operations. That
+            range became the blueprint for LASA: practical, service-led,
+            systems-aware, and built for real-world execution.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.3 }}
             className="text-primary-foreground font-medium text-lg"
           >
-            Houston is where those experiences converge.
+            Houston is where those standards became a company.
           </motion.p>
           <motion.p
             {...fadeUp}
             transition={{ delay: 0.35 }}
             className="text-primary-foreground/70 leading-relaxed text-lg"
           >
-            It&apos;s not just a market — it&apos;s home. It&apos;s where family
-            comes first. It&apos;s where legacy is being built.
+            Paolo&apos;s story remains the foundation, but LASA is not built to be
+            one chef, one cuisine, or one menu. It is built to become a serious
+            Houston hospitality platform with cultural roots and scalable
+            systems.
           </motion.p>
         </div>
 
@@ -103,8 +103,8 @@ export function AboutFounder() {
               PAOLO NUCUM
             </h3>
             <p className="text-primary-foreground/60 text-sm font-sans">
-              30+ years in high-volume hospitality and guest experience
-              leadership.
+              Hospitality operator, founder, and standard-setter for LASA&apos;s
+              service culture.
             </p>
           </div>
         </motion.div>

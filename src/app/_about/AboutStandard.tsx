@@ -24,21 +24,29 @@ export function AboutStandard() {
           transition={{ delay: 0.1 }}
           className="font-display text-5xl md:text-7xl tracking-widest text-primary-foreground mb-4 leading-tight"
         >
-          SERVICE IS THE STANDARD.
+          BUILT FROM HOSPITALITY.
         </motion.h2>
         <motion.h2
           {...fadeUp}
           transition={{ delay: 0.2 }}
           className="font-display text-5xl md:text-7xl tracking-widest text-accent mb-16 leading-tight"
         >
-          FLAVOR IS THE SIGNATURE.
+          POWERED BY INFRASTRUCTURE.
         </motion.h2>
+        <motion.p
+          {...fadeUp}
+          transition={{ delay: 0.25 }}
+          className="text-primary-foreground/70 leading-relaxed text-lg font-sans mb-10"
+        >
+          LASA is built from hospitality, powered by infrastructure, and driven
+          by flavor.
+        </motion.p>
         <motion.div {...fadeUp} transition={{ delay: 0.3 }}>
           <Link
-            href="/catering"
+            href="/catering#inquiry-form"
             className="inline-block border border-primary-foreground/40 text-primary-foreground/80 hover:border-primary-foreground hover:text-primary-foreground text-sm tracking-[0.2em] uppercase font-sans px-10 py-4 transition-colors duration-300"
           >
-            Explore Catering
+            Start a Catering Inquiry
           </Link>
         </motion.div>
       </div>
